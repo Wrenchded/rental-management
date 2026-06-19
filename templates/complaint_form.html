@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ _('support_desk') }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Frontend Translation Matrix to keep the dropdown and placeholders synchronized instantly
+        const localMenuTranslations = {
+            en: {
+                plumbing: "🚰 Plumbing",
+                electrical: "⚡ Electrical",
+                carpentry: "🪚 Carpentry",
+                housekeeping: "🧹 Housekeeping",
+                wifi: "📶 Internet/WiFi",
+                others: "📦 Others",
+                placeholder: "Describe your issue here in detail..."
+            },
+            hi: {
+                plumbing: "🚰 नलसाजी (Plumbing)",
+                electrical: "⚡ बिजली का काम (Electrical)",
+                carpentry: "🪚 बढ़ईगिरी (Carpentry)",
+                housekeeping: "🧹 साफ-सफाई (Housekeeping)",
+                wifi: "📶 इंटरनेट / वाईफाई",
+                others: "📦 अन्य",
+                placeholder: "यहाँ अपनी समस्या का विस्तार से वर्णन करें..."
+            },
+            mr: {
+                plumbing: "🚰 नळाचे काम (Plumbing)",
+                electrical: "⚡ विजेचे काम (Electrical)",
+                carpentry: "🪚 सुतारकाम (Carpentry)",
+                housekeeping: "🧹 साफसफाई (Housekeeping)",
+                wifi: "📶 इंटरनेट / वायफाय",
+                others: "📦 इतर",
+                placeholder: "तुमच्या समस्येचे सविस्तर वर्णन येथे लिहा..."
+            }
+        };
+
+        // Automatically localize the option menus and text placeholders on page mounting
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            const menu = localMenuTranslations[activeLang] || localMenuTranslations['en'];
+            
+            // Dropdown option translations
+            document.getElementById('opt-plumbing').innerText = menu.plumbing;
+            document.getElementById('opt-electrical').innerText = menu.electrical;
+            document.getElementById('opt-carpentry').innerText = menu.carpentry;
+            document.getElementById('opt-housekeeping').innerText = menu.housekeeping;
+            document.getElementById('opt-wifi').innerText = menu.wifi;
+            document.getElementById('opt-others').innerText = menu.others;
+
+            // Safe Textarea Placeholder Assignment
+            document.getElementById('input-description').placeholder = menu.placeholder;
+        });
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-md md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-6 relative">
+                <a href="/dashboard/tenant/{{ tenant_id }}" class="absolute left-0 top-0 text-slate-400 hover:text-blue-950 transition text-sm font-bold cursor-pointer decoration-none">←</a>
+                <h1 class="text-xl font-black text-blue-950 tracking-tight uppercase text-center">{{ _('support_desk') }}</h1>
+                <p class="text-[10px] text-slate-400 tracking-widest uppercase font-bold mt-1 text-center">{{ _('issue_tracking') }}</p>
+            </div>
+
+            <form action="/dashboard/tenant/{{ tenant_id }}/complaints" method="POST" class="space-y-5">
+                
+                <input type="hidden" name="owner_id" value="{{ tenant.owner_id }}">
+                
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{{ _('issue_category') }}</label>
+                    <select name="category" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition cursor-pointer">
+                        <option value="Plumbing" id="opt-plumbing">🚰 Plumbing</option>
+                        <option value="Electrical" id="opt-electrical">⚡ Electrical</option>
+                        <option value="Carpentry" id="opt-carpentry">🪚 Carpentry</option>
+                        <option value="Housekeeping" id="opt-housekeeping">🧹 Housekeeping</option>
+                        <option value="Internet/WiFi" id="opt-wifi">📶 Internet/WiFi</option>
+                        <option value="Others" id="opt-others">📦 Others</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">{{ _('detailed_desc') }}</label>
+                    <textarea id="input-description" name="description" rows="4" required placeholder=""
+                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition resize-none leading-relaxed"></textarea>
+                </div>
+
+                <div class="bg-amber-50/70 border border-amber-100 text-amber-900 rounded-xl p-3.5 text-xs font-semibold leading-relaxed flex items-start gap-2.5 shadow-2xs">
+                    ⚠️ <span><strong class="font-black text-amber-950">{{ _('notice_label') }}</strong> {{ _('notice_body') }}</span>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full py-3.5 bg-blue-950 hover:bg-blue-900 text-white font-black rounded-xl text-xs tracking-widest transition shadow-md shadow-blue-950/10 uppercase cursor-pointer">
+                        {{ _('dispatch_ticket_btn') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100 text-center">
+            <span class="text-[9px] text-slate-400 font-bold tracking-widest uppercase">
+                {{ _('support_router_active') }}
+            </span>
+        </div>
+
+    </div>
+
+</body>
+</html>

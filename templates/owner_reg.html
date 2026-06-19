@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Registration</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Centralized Client-Side Language Matrix for Owner Registration Form Panels
+        const languageDictionary = {
+            en: {
+                mainTitle: "Owner Registration",
+                subTitle: "Create Property Profile",
+                lblFullName: "Full Name",
+                lblAadhaar: "Aadhaar Number (12 digits)",
+                lblPropTypes: "Property Types (Select One or More)",
+                lblBusinessAddress: "Permanent Business Address",
+                lblUploadPhoto: "Upload Profile Photo",
+                btnSubmit: "Save & Configure Assets →",
+                adWindow: "ADVERTISE WINDOW",
+                
+                // Card Option Titles
+                cardPg: "🏢 PG",
+                cardFlat: "🏠 Flat",
+                cardCommercial: "🏪 Commercial",
+                cardOffice: "💼 Office",
+                cardChawl: "🏘️ Chawl",
+                cardGodown: "🏭 Godown",
+                cardShed: "🛖 Shed",
+                cardOpenSpace: "🏞️ Open Space"
+            },
+            hi: {
+                mainTitle: "मकान मालिक पंजीकरण",
+                subTitle: "प्रॉपर्टी प्रोफ़ाइल बनाएं",
+                lblFullName: "पूरा नाम",
+                lblAadhaar: "आधार संख्या (12 अंक)",
+                lblPropTypes: "संपत्ति के प्रकार (एक या अधिक चुनें)",
+                lblBusinessAddress: "स्थायी व्यावसायिक पता",
+                lblUploadPhoto: "प्रोफ़ाइल फ़ोटो अपलोड करें",
+                btnSubmit: "सहेजें और एसेट कॉन्फ़िगर करें →",
+                adWindow: "विज्ञापन विंडो",
+                
+                // Card Option Titles
+                cardPg: "🏢 पीजी (PG)",
+                cardFlat: "🏠 फ्लैट (Flat)",
+                cardCommercial: "🏪 कमर्शियल",
+                cardOffice: "💼 ऑफिस",
+                cardChawl: "🏘️ चाल (Chawl)",
+                cardGodown: "🏭 गोदाम (Godown)",
+                cardShed: "🛖 शेड (Shed)",
+                cardOpenSpace: "🏞️ खुली जगह"
+            },
+            mr: {
+                mainTitle: "घरमालक नोंदणी",
+                subTitle: "प्रॉपर्टी प्रोफाइल तयार करा",
+                lblFullName: "पूर्ण नाव",
+                lblAadhaar: "आधार क्रमांक (12 अंकी)",
+                lblPropTypes: "मालमत्तेचे प्रकार (एक किंवा अधिक निवडा)",
+                lblBusinessAddress: "कायमचा व्यावसायिक पत्ता",
+                lblUploadPhoto: "प्रोफाइल फोटो अपलोड करा",
+                btnSubmit: "माहिती सेव्ह करा आणि पुढे जा →",
+                adWindow: "जाहिरात विंडो",
+                
+                // Card Option Titles
+                cardPg: "🏢 पीजी (PG)",
+                cardFlat: "🏠 फ्लॅट (Flat)",
+                cardCommercial: "🏪 कमर्शियल",
+                cardOffice: "💼 ऑफिस",
+                cardChawl: "🏘️ चाळ (Chawl)",
+                cardGodown: "🏭 गोदाम (Godown)",
+                cardShed: "🛖 शेड (Shed)",
+                cardOpenSpace: "🏞️ खुली जागा"
+            }
+        };
+
+        // DOM Translation Execution Hook
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            const dict = languageDictionary[activeLang] || languageDictionary['en'];
+            
+            // Map Language Dictionary Elements to DOM Text Nodes
+            document.getElementById('lbl-main-title').innerText = dict.mainTitle;
+            document.getElementById('lbl-sub-title').innerText = dict.subTitle;
+            document.getElementById('lbl-full-name').innerText = dict.lblFullName;
+            document.getElementById('lbl-aadhaar').innerText = dict.lblAadhaar;
+            document.getElementById('lbl-prop-types').innerText = dict.lblPropTypes;
+            document.getElementById('lbl-business-address').innerText = dict.lblBusinessAddress;
+            document.getElementById('lbl-upload-photo').innerText = dict.lblUploadPhoto;
+            document.getElementById('btn-submit-txt').innerText = dict.btnSubmit;
+            document.getElementById('lbl-ad-txt').innerText = dict.adWindow;
+
+            // Update Text Inside Checkbox Custom Cards
+            document.getElementById('txt-card-pg').innerText = dict.cardPg;
+            document.getElementById('txt-card-flat').innerText = dict.cardFlat;
+            document.getElementById('txt-card-commercial').innerText = dict.cardCommercial;
+            document.getElementById('txt-card-office').innerText = dict.cardOffice;
+            document.getElementById('txt-card-chawl').innerText = dict.cardChawl;
+            document.getElementById('txt-card-godown').innerText = dict.cardGodown;
+            document.getElementById('txt-card-shed').innerText = dict.cardShed;
+            document.getElementById('txt-card-openspace').innerText = dict.cardOpenSpace;
+        });
+
+        // Simple JavaScript helper to toggle visual states for the custom checkbox cards (Preserved Exactly)
+        function toggleCheckbox(boxId, cardId) {
+            const checkbox = document.getElementById(boxId);
+            const card = document.getElementById(cardId);
+            const indicator = document.getElementById(cardId + '-indicator');
+            
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                card.classList.remove('border-slate-200', 'bg-white');
+                card.classList.add('border-blue-900', 'bg-blue-50/50');
+                indicator.classList.remove('border-slate-300', 'bg-white');
+                indicator.classList.add('border-blue-900', 'bg-blue-900');
+                indicator.innerHTML = '✓';
+            } else {
+                card.classList.remove('border-blue-900', 'bg-blue-50/50');
+                card.classList.add('border-slate-200', 'bg-white');
+                indicator.classList.remove('border-blue-900', 'bg-blue-900');
+                indicator.classList.add('border-slate-300', 'bg-white');
+                indicator.innerHTML = '';
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-6">
+                <h1 id="lbl-main-title" class="text-xl font-black text-blue-950 tracking-tight uppercase">Owner Registration</h1>
+                <p id="lbl-sub-title" class="text-[10px] text-slate-400 tracking-widest uppercase font-bold mt-1">Create Property Profile</p>
+            </div>
+
+            <form action="/register/owner" method="POST" enctype="multipart/form-data" class="space-y-4 flex-1 flex flex-col">
+                <input type="hidden" name="mobile" value="{{ mobile }}">
+                <input type="hidden" name="email" value="{{ email }}">
+                
+                <div>
+                    <label id="lbl-full-name" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Full Name</label>
+                    <input type="text" name="name" required placeholder="e.g. Rahul Sharma"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <div>
+                    <label id="lbl-aadhaar" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Aadhaar Number (12 digits)</label>
+                    <input type="text" name="aadhaar" maxlength="12" required placeholder="0000 0000 0000"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <div>
+                    <label id="lbl-prop-types" class="block text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Property Types (Select One or More)</label>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <input type="checkbox" name="property_types" value="PG" id="box-pg" class="hidden">
+                        <input type="checkbox" name="property_types" value="Flat" id="box-flat" class="hidden">
+                        <input type="checkbox" name="property_types" value="Commercial" id="box-commercial" class="hidden">
+                        <input type="checkbox" name="property_types" value="Office" id="box-office" class="hidden">
+                        <input type="checkbox" name="property_types" value="Chawl" id="box-chawl" class="hidden">
+                        <input type="checkbox" name="property_types" value="Godown" id="box-godown" class="hidden">
+                        <input type="checkbox" name="property_types" value="Shed" id="box-shed" class="hidden">
+                        <input type="checkbox" name="property_types" value="Open Space" id="box-openspace" class="hidden">
+
+                        <div id="card-pg" onclick="toggleCheckbox('box-pg', 'card-pg')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-pg" class="text-xs font-bold text-slate-700">🏢 PG</span>
+                            <div id="card-pg-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-flat" onclick="toggleCheckbox('box-flat', 'card-flat')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-flat" class="text-xs font-bold text-slate-700">🏠 Flat</span>
+                            <div id="card-flat-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-commercial" onclick="toggleCheckbox('box-commercial', 'card-commercial')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-commercial" class="text-xs font-bold text-slate-700">🏪 Commercial</span>
+                            <div id="card-commercial-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-office" onclick="toggleCheckbox('box-office', 'card-office')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-office" class="text-xs font-bold text-slate-700">💼 Office</span>
+                            <div id="card-office-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-chawl" onclick="toggleCheckbox('box-chawl', 'card-chawl')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-chawl" class="text-xs font-bold text-slate-700">🏘️ Chawl</span>
+                            <div id="card-chawl-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-godown" onclick="toggleCheckbox('box-godown', 'card-godown')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-godown" class="text-xs font-bold text-slate-700">🏭 Godown</span>
+                            <div id="card-godown-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-shed" onclick="toggleCheckbox('box-shed', 'card-shed')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-shed" class="text-xs font-bold text-slate-700">🛖 Shed</span>
+                            <div id="card-shed-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+
+                        <div id="card-openspace" onclick="toggleCheckbox('box-openspace', 'card-openspace')" class="border border-slate-200 bg-white p-3.5 rounded-xl flex items-center justify-between cursor-pointer hover:border-blue-900/40 transition-all select-none shadow-2xs">
+                            <span id="txt-card-openspace" class="text-xs font-bold text-slate-700">🏞️ Open Space</span>
+                            <div id="card-openspace-indicator" class="w-4 h-4 border border-slate-300 rounded flex items-center justify-center text-[9px] text-white font-black bg-white transition-all"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label id="lbl-business-address" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Permanent Business Address</label>
+                    <textarea name="property_address" rows="2" required placeholder="Enter primary office or billing address"
+                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs"></textarea>
+                </div>
+
+                <div>
+                    <label id="lbl-upload-photo" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Upload Profile Photo</label>
+                    <input type="file" name="photo" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[11px] file:font-black file:bg-blue-50 file:text-blue-900 hover:file:bg-blue-100 cursor-pointer">
+                </div>
+
+                <div class="pt-4 mt-auto">
+                    <button type="submit" class="w-full py-3.5 bg-blue-900 text-white font-black uppercase tracking-wider rounded-xl shadow-md shadow-blue-900/10 text-xs hover:bg-blue-950 transition-all duration-200 cursor-pointer text-center">
+                        <span id="btn-submit-txt">Save & Configure Assets →</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div id="lbl-ad-txt" class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                ADVERTISE WINDOW
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

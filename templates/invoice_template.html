@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice - {{ log.complaint_id }}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>@media print { .no-print { display: none; } }</style>
+</head>
+<body class="p-10 bg-slate-50">
+    <div class="max-w-3xl mx-auto bg-white p-12 shadow-lg border border-slate-200">
+        <h1 class="text-4xl font-black text-slate-950 mb-2">SERVICE INVOICE</h1>
+        <p class="text-slate-500 mb-8">#{{ log.complaint_id }} | Date: {{ log.service_date }}</p>
+
+        <div class="grid grid-cols-2 gap-8 mb-10">
+            <div>
+                <p class="font-bold text-xs uppercase text-slate-400">Technician</p>
+                <p class="text-lg font-bold">{{ technician.name }}</p>
+                <p class="text-sm text-slate-600">{{ technician.specialization }}</p>
+            </div>
+
+            <div>
+                <p class="font-bold text-xs uppercase text-slate-400">Bill To</p>
+                <p class="text-lg font-bold">{{ tenant.name }}</p>
+                <p class="text-sm text-slate-600">Unit: {{ tenant.allocated_unit }}</p>
+            </div>
+        </div>
+
+        <table class="w-full mb-10">
+            <tr class="border-b-2 border-slate-950">
+                <th class="text-left py-3">Description</th>
+                <th class="text-right py-3">Amount</th>
+            </tr>
+
+            <tr>
+                <td class="py-4">
+                    Labor ({{ log['hours_spent'] }} hours @ ₹200/hr)
+                </td>
+                <td class="text-right py-4">
+                    ₹{{ labor_cost }}
+                </td>
+            </tr>
+
+            <tr>
+                <td class="py-4">
+                    Spare Parts Used
+                    <div class="text-xs text-slate-500 italic mt-1 whitespace-pre-line">
+                        {{ data.parts_description }}
+                    </div>
+                </td>
+                <td class="text-right py-4">
+                    ₹{{ log['parts_cost'] }}
+                </td>
+            </tr>
+
+            <tr class="border-t-2 border-slate-950 font-black">
+                <td class="py-4">TOTAL</td>
+                <td class="text-right py-4">
+                    ₹{{ log['total_amount'] }}
+                </td>
+            </tr>
+        </table>
+
+        <div class="flex gap-3 no-print">
+    
+            <button onclick="window.print()"
+                class="flex-1 bg-slate-950 text-white font-bold py-3 rounded-xl hover:bg-slate-800 transition">
+                PRINT INVOICE
+            </button>
+        
+            <a href="/dashboard/owner/{{ owner_id }}"
+               class="flex-1 text-center bg-blue-950 text-white font-bold py-3 rounded-xl hover:bg-blue-900 transition">
+                BACK TO DASHBOARD
+            </a>
+        
+        </div>
+    </div>
+</body>
+</html>

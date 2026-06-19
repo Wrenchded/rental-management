@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configure Property Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Centralized Client-Side Language Matrix for Configuration Form Panels
+        const languageDictionary = {
+            en: {
+                mainTitle: "Configure Property Asset",
+                subTitle: "OWNER MANAGEMENT PANEL",
+                lblCardNum: "Property Card Number",
+                lblPropName: "Property Name / Address",
+                lblPropType: "Property Type",
+                lblPgSpecs: "PG Inventory Specifics",
+                lblFlatSpecs: "Flat Structural Checklist",
+                lblOfficeSpecs: "Office Infrastructure Specs",
+                lblChawlSpecs: "Chawl Unit Infrastructure",
+                lblGenericSpecs: "Industrial & Open Asset Specs",
+                lblTotalRooms: "Total Rooms",
+                lblTotalBeds: "Total Beds",
+                lblBhkConfig: "BHK Configuration",
+                lblFurnishing: "Furnishing Level",
+                lblAmenities: "Available Amenities",
+                lblPropertyTerms: "Property Specific Terms & Conditions",
+                btnSave: "Save Property Profile",
+                adWindow: "ADVERTISE WINDOW",
+                
+                // Form Dropdown Options
+                optSelectClass: "Select Property Classification",
+                optPg: "🏠 PG (Paying Guest)",
+                optFlat: "🏢 Flat / Apartment",
+                optOffice: "💼 Commercial Office",
+                optChawl: "🏘️ Chawl Units",
+                optGodown: "🏭 Godown Warehousing",
+                optShed: "🛠️ Industrial Shed",
+                optOpen: "🌳 Open Space Asset",
+                
+                // BHK Dropdowns
+                opt1bhk: "1 BHK Layout",
+                opt2bhk: "2 BHK Layout",
+                opt3bhk: "3 BHK Layout",
+                opt4bhk: "4 BHK Layout",
+                
+                // Furnishing Levels
+                optUnfurnished: "Unfurnished",
+                optSemiFurnished: "Semi Furnished",
+                optFullyFurnished: "Fully Furnished",
+
+                // Dynamic Feature Labels
+                lblAcType: "AC / Room Ventilation Type",
+                lblSharingType: "Room Sharing Tier",
+                lblParking: "Vehicle Parking Availability",
+                lblSecurity: "Premises Security System",
+                lblCabins: "Dedicated Private Cabins",
+                lblWorkstations: "Total Desk Workstations",
+                lblMeetingRooms: "Meeting / Conference Rooms",
+                lblReception: "Front Desk Reception Area",
+                lblInternet: "High-Speed Internet Line",
+                lblChawlRoomNo: "Room Number Reference",
+                lblChawlUnitNo: "Unit Number Mapping",
+                lblWaterSupply: "Water Connection Status",
+                lblElectricityMeter: "Dedicated Electricity Meter",
+                lblGenericCapacity: "Industrial Asset Capacity Details",
+
+                // Option Text Values
+                optAc: "Air Conditioned (AC Room)",
+                optNonAc: "Non-AC Standard Room",
+                optSingle: "Single Occupancy",
+                optDouble: "Double Sharing",
+                optTriple: "Triple Sharing",
+                optFour: "Four Sharing",
+                optYes: "Available / Present",
+                optNo: "Not Available",
+                optSharedWater: "Common Shared Tap",
+                optPrivateWater: "Own Dedicated Connection",
+
+                // Checkbox Labels
+                chkBedSpace: " Bed Space",
+                chkWifi: " High-Speed WiFi",
+                chkGeyser: " Geyser Unit",
+                chkPurifier: " Purifier",
+                chkCupboard: " Cupboard",
+                chkFridge: " Refrigerator",
+                chkFan: " Fan System",
+                chkBedUnits: " Bed Units",
+                chkAc: " Air Cond.",
+                chkSofa: " Sofa Set",
+                chkTv: " Television",
+                chkWifiLine: " WiFi Line"
+            },
+            hi: {
+                mainTitle: "संपत्ति एसेट कॉन्फ़िगर करें",
+                subTitle: "मकान मालिक प्रबंधन पैनल",
+                lblCardNum: "संपत्ति कार्ड नंबर",
+                lblPropName: "संपत्ति का नाम / पता",
+                lblPropType: "संपत्ति का प्रकार",
+                lblPgSpecs: "पीजी इन्वेंटरी विवरण",
+                lblFlatSpecs: "फ्लैट संरचनात्मक चेकलिस्ट",
+                lblOfficeSpecs: "कार्यालय अवसंरचना विवरण",
+                lblChawlSpecs: "चाल यूनिट इन्फ्रास्ट्रक्चर",
+                lblGenericSpecs: "औद्योगिक और खुली संपत्ति विवरण",
+                lblTotalRooms: "कुल कमरे",
+                lblTotalBeds: "कुल बेड",
+                lblBhkConfig: "BHK कॉन्फ़िगरेशन",
+                lblFurnishing: "फर्नीचर का स्तर",
+                lblAmenities: "उपलब्ध सुविधाएं",
+                lblPropertyTerms: "संपत्ति-विशिष्ट नियम और शर्तें",
+                btnSave: "संपत्ति प्रोफ़ाइल सहेजें",
+                adWindow: "विज्ञापन विंडो",
+                
+                // Form Dropdown Options
+                optSelectClass: "संपत्ति वर्गीकरण का चयन करें",
+                optPg: "🏠 पीजी (Paying Guest)",
+                optFlat: "🏢 फ्लैट / अपार्टमेंट",
+                optOffice: "💼 वाणिज्यिक कार्यालय",
+                optChawl: "🏘️ चाल इकाइयाँ",
+                optGodown: "🏭 गोदाम / वेयरहाउसिंग",
+                optShed: "🛠️ औद्योगिक शेड",
+                optOpen: "🌳 ओपन स्पेस एसेट",
+                
+                // BHK Dropdowns
+                opt1bhk: "1 BHK लेआउट",
+                opt2bhk: "2 BHK लेआउट",
+                opt3bhk: "3 BHK लेआउट",
+                opt4bhk: "4 BHK लेआउट",
+                
+                // Furnishing Levels
+                optUnfurnished: "बिना फर्नीचर का (Unfurnished)",
+                optSemiFurnished: "अर्ध सुसज्जित (Semi Furnished)",
+                optFullyFurnished: "पूरी तरह से सुसज्जित (Fully Furnished)",
+
+                // Dynamic Feature Labels
+                lblAcType: "एसी / कमरा वेंटिलेशन प्रकार",
+                lblSharingType: "रूम शेयरिंग श्रेणी",
+                lblParking: "वाहन पार्किंग उपलब्धता",
+                lblSecurity: "परिसर सुरक्षा प्रणाली",
+                lblCabins: "समर्पित निजी केबिन",
+                lblWorkstations: "कुल डेस्क वर्कस्टेशन",
+                lblMeetingRooms: "मीटिंग / कॉन्फ्रेंस रूम",
+                lblReception: "फ्रंट डेस्क रिसेप्शन क्षेत्र",
+                lblInternet: "हाई-स्पीड इंटरनेट लाइन",
+                lblChawlRoomNo: "कमरा नंबर संदर्भ",
+                lblChawlUnitNo: "यूनिट नंबर मैपिंग",
+                lblWaterSupply: "पानी के कनेक्शन की स्थिति",
+                lblElectricityMeter: "समर्पित बिजली मीटर",
+                lblGenericCapacity: "औद्योगिक संपत्ति क्षमता विवरण",
+
+                // Option Text Values
+                optAc: "एयर कंडीशन्ड (AC रूम)",
+                optNonAc: "नॉन-एसी स्टैंडर्ड रूम",
+                optSingle: "एकल ऑक्यूपेंसी (Single)",
+                optDouble: "डबल शेयरिंग",
+                optTriple: "ट्रिपल शेयरिंग",
+                optFour: "फोर शेयरिंग",
+                optYes: "उपलब्ध / मौजूद",
+                optNo: "उपलब्ध नहीं",
+                optSharedWater: "सामान्य साझा नल",
+                optPrivateWater: "स्वयं का समर्पित कनेक्शन",
+
+                // Checkbox Labels
+                chkBedSpace: " बेड स्पेस",
+                chkWifi: " हाई-स्पीड वाईफाई",
+                chkGeyser: " गीजर यूनिट",
+                chkPurifier: " वॉटर प्यूरीफायर",
+                chkCupboard: " अलमारी (Cupboard)",
+                chkFridge: " रेफ्रिजरेटर (Fridge)",
+                chkFan: " पंखा सिस्टम",
+                chkBedUnits: " बेड इकाइयाँ",
+                chkAc: " एयर कंडीशनर (AC)",
+                chkSofa: " सोफा सेट",
+                chkTv: " टेलीविजन (TV)",
+                chkWifiLine: " वाईफाई लाइन"
+            },
+            mr: {
+                mainTitle: "मालमत्ता प्रोफाइल सेट करा",
+                subTitle: "घरमालक व्यवस्थापन पॅनेल",
+                lblCardNum: "मालमत्ता कार्ड क्रमांक",
+                lblPropName: "मालमत्तेचे नाव / पत्ता",
+                lblPropType: "मालमत्तेचा प्रकार",
+                lblPgSpecs: "पीजी तपशीलवार माहिती",
+                lblFlatSpecs: "फ्लॅटची रचना व चेकलिस्ट",
+                lblOfficeSpecs: "कार्यालयीन पायाभूत सुविधा",
+                lblChawlSpecs: "चाळ युनिट इन्फ्रास्ट्रक्चर",
+                lblGenericSpecs: "औद्योगिक आणि खुल्या जागेचा तपशील",
+                lblTotalRooms: "एकूण खोल्या",
+                lblTotalBeds: "एकूण बेड",
+                lblBhkConfig: "BHK रचना",
+                lblFurnishing: "फर्निचरची स्थिती",
+                lblAmenities: "उपलब्ध सोयी-सुविधा",
+                lblPropertyTerms: "मालमत्ता-विशिष्ट नियम आणि अटी",
+                btnSave: "मालमत्ता प्रोफाइल सेव्ह करा",
+                adWindow: "जाहिरात विंडो",
+                
+                // Form Dropdown Options
+                optSelectClass: "मालमत्ता वर्गीकरण निवडा",
+                optPg: "🏠 पीजी (Paying Guest)",
+                optFlat: "🏢 फ्लॅट / अपार्टमेंट",
+                optOffice: "💼 व्यावसायिक कार्यालय",
+                optChawl: "🏘️ चाळ युनिट्स",
+                optGodown: "🏭 गोदाम / वेअरहाउसिंग",
+                optShed: "🛠️ इंडस्ट्रियल शेड",
+                optOpen: "🌳 ओपन充 जागा",
+                
+                // BHK Dropdowns
+                opt1bhk: "1 BHK लेआउट",
+                opt2bhk: "2 BHK लेआउट",
+                opt3bhk: "3 BHK लेआउट",
+                opt4bhk: "4 BHK लेआउट",
+                
+                // Furnishing Levels
+                optUnfurnished: "फर्निचर नसलेले (Unfurnished)",
+                optSemiFurnished: "अर्ध सुसज्जित (Semi Furnished)",
+                optFullyFurnished: "पूर्ण सुसज्जित (Fully Furnished)",
+
+                // Dynamic Feature Labels
+                lblAcType: "एसी / रूम वेंटिलेशन प्रकार",
+                lblSharingType: "रूम शेअरिंग श्रेणी",
+                lblParking: "वाहन पार्किंग उपलब्धता",
+                lblSecurity: "परिसर सुरक्षा यंत्रणा",
+                lblCabins: "स्वतंत्र खाजगी केबिन्स",
+                lblWorkstations: "एकूण डेस्क वर्कस्टेशन्स",
+                lblMeetingRooms: "मीटिंग / कॉन्फरन्स रूम्स",
+                lblReception: "स्वागत कक्ष (Reception Area)",
+                lblInternet: "हाय-स्पीड इंटरनेट लाईन",
+                lblChawlRoomNo: "खोली क्रमांक संदर्भ",
+                lblChawlUnitNo: "युनिट नंबर मॅपिंग",
+                lblWaterSupply: "पाणी पुरवठा स्थिती",
+                lblElectricityMeter: "स्वतंत्र वीज मीटर",
+                lblGenericCapacity: "औद्योगिक मालमत्ता क्षमता तपशील",
+
+                // Option Text Values
+                optAc: "एअर कंडिशन (AC रूम)",
+                optNonAc: "नॉन-एसी स्टँडर्ड रूम",
+                optSingle: "सिंगल ऑक्युपन्सी",
+                optDouble: "डबल शेअरिंग",
+                optTriple: "ट्रिपल शेअरिंग",
+                optFour: "फोर शेअरिंग",
+                optYes: "उपलब्ध आहे",
+                optNo: "उपलब्ध नाही",
+                optSharedWater: "सार्वजनिक नळ",
+                optPrivateWater: "स्वतःचे स्वतंत्र कनेक्शन",
+
+                // Checkbox Labels
+                chkBedSpace: " बेड स्पेस",
+                chkWifi: " हाय-स्पीड वायफाय",
+                chkGeyser: " गीझर युनिट",
+                chkPurifier: " वॉटर प्युरिफायर",
+                chkCupboard: " कपाट (Cupboard)",
+                chkFridge: " फ्रिज (Fridge)",
+                chkFan: " फॅन सिस्टम",
+                chkBedUnits: " बेड युनिट्स",
+                chkAc: " एअर कंडिशन (AC)",
+                chkSofa: " सोफा सेट",
+                chkTv: " टेलिव्हिजन (TV)",
+                chkWifiLine: " वायफाय लाईन"
+            }
+        };
+
+        // DOM Translation Execution Hook
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            const dict = languageDictionary[activeLang] || languageDictionary['en'];
+            
+            // Standard Page Text Update Maps
+            document.getElementById('lbl-main-title').innerText = dict.mainTitle;
+            document.getElementById('lbl-sub-title').innerText = dict.subTitle;
+            document.getElementById('lbl-card-num').innerText = dict.lblCardNum;
+            document.getElementById('lbl-prop-name').innerText = dict.lblPropName;
+            document.getElementById('lbl-prop-type').innerText = dict.lblPropType;
+            document.getElementById('lbl-property-terms').innerText = dict.lblPropertyTerms;
+            document.getElementById('btn-save-txt').innerText = dict.btnSave;
+            document.getElementById('lbl-ad-txt').innerText = dict.adWindow;
+
+            // Optional structural headers mapping
+            if(document.getElementById('lbl-pg-specs')) document.getElementById('lbl-pg-specs').innerText = dict.lblPgSpecs;
+            if(document.getElementById('lbl-flat-specs')) document.getElementById('lbl-flat-specs').innerText = dict.lblFlatSpecs;
+            if(document.getElementById('lbl-office-specs')) document.getElementById('lbl-office-specs').innerText = dict.lblOfficeSpecs;
+            if(document.getElementById('lbl-chawl-specs')) document.getElementById('lbl-chawl-specs').innerText = dict.lblChawlSpecs;
+            if(document.getElementById('lbl-generic-specs')) document.getElementById('lbl-generic-specs').innerText = dict.lblGenericSpecs;
+
+            // Class-Based Sub-field Label Localization Bulk Syncs
+            updateLabelsByClass('lbl-total-rooms', dict.lblTotalRooms);
+            updateLabelsByClass('lbl-total-beds', dict.lblTotalBeds);
+            updateLabelsByClass('lbl-bhk-config', dict.lblBhkConfig);
+            updateLabelsByClass('lbl-furnishing', dict.lblFurnishing);
+            updateLabelsByClass('lbl-amenities', dict.lblAmenities);
+            updateLabelsByClass('lbl-ac-type', dict.lblAcType);
+            updateLabelsByClass('lbl-sharing-type', dict.lblSharingType);
+            updateLabelsByClass('lbl-parking', dict.lblParking);
+            updateLabelsByClass('lbl-security', dict.lblSecurity);
+            updateLabelsByClass('lbl-cabins', dict.lblCabins);
+            updateLabelsByClass('lbl-workstations', dict.lblWorkstations);
+            updateLabelsByClass('lbl-meeting-rooms', dict.lblMeetingRooms);
+            updateLabelsByClass('lbl-reception', dict.lblReception);
+            updateLabelsByClass('lbl-internet', dict.lblInternet);
+            updateLabelsByClass('lbl-chawl-room-no', dict.lblChawlRoomNo);
+            updateLabelsByClass('lbl-chawl-unit-no', dict.lblChawlUnitNo);
+            updateLabelsByClass('lbl-water-supply', dict.lblWaterSupply);
+            updateLabelsByClass('lbl-electricity-meter', dict.lblElectricityMeter);
+            updateLabelsByClass('lbl-generic-capacity', dict.lblGenericCapacity);
+
+            // Options Select Tiers
+            updateLabelsByClass('opt-ac', dict.optAc);
+            updateLabelsByClass('opt-non-ac', dict.optNonAc);
+            updateLabelsByClass('opt-single', dict.optSingle);
+            updateLabelsByClass('opt-double', dict.optDouble);
+            updateLabelsByClass('opt-triple', dict.optTriple);
+            updateLabelsByClass('opt-four', dict.optFour);
+            updateLabelsByClass('opt-yes', dict.optYes);
+            updateLabelsByClass('opt-no', dict.optNo);
+            updateLabelsByClass('opt-shared-water', dict.optSharedWater);
+            updateLabelsByClass('opt-private-water', dict.optPrivateWater);
+
+            // Dropdown Option Direct Map Lists
+            document.getElementById('opt-select-class').innerText = dict.optSelectClass;
+            document.getElementById('opt-pg').innerText = dict.optPg;
+            document.getElementById('opt-flat').innerText = dict.optFlat;
+            document.getElementById('opt-office').innerText = dict.optOffice;
+            document.getElementById('opt-chawl').innerText = dict.optChawl;
+            document.getElementById('opt-godown').innerText = dict.optGodown;
+            document.getElementById('opt-shed').innerText = dict.optShed;
+            document.getElementById('opt-open').innerText = dict.optOpen;
+            document.getElementById('opt-1bhk').innerText = dict.opt1bhk;
+            document.getElementById('opt-2bhk').innerText = dict.opt2bhk;
+            document.getElementById('opt-3bhk').innerText = dict.opt3bhk;
+            document.getElementById('opt-4bhk').innerText = dict.opt4bhk;
+            document.getElementById('opt-unfurnished').innerText = dict.optUnfurnished;
+            document.getElementById('opt-semi').innerText = dict.optSemiFurnished;
+            document.getElementById('opt-fully').innerText = dict.optFullyFurnished;
+
+            // Checkbox Labels Text Node Injections
+            document.getElementById('chk-txt-bedspace').appendChild(document.createTextNode(dict.chkBedSpace));
+            document.getElementById('chk-txt-wifi').appendChild(document.createTextNode(dict.chkWifi));
+            document.getElementById('chk-txt-geyser').appendChild(document.createTextNode(dict.chkGeyser));
+            document.getElementById('chk-txt-purifier').appendChild(document.createTextNode(dict.chkPurifier));
+            document.getElementById('chk-txt-cupboard').appendChild(document.createTextNode(dict.chkCupboard));
+            document.getElementById('chk-txt-f-geyser').appendChild(document.createTextNode(dict.chkGeyser));
+            document.getElementById('chk-txt-f-fridge').appendChild(document.createTextNode(dict.chkFridge));
+            document.getElementById('chk-txt-f-fan').appendChild(document.createTextNode(dict.chkFan));
+            document.getElementById('chk-txt-f-bed').appendChild(document.createTextNode(dict.chkBedUnits));
+            document.getElementById('chk-txt-f-ac').appendChild(document.createTextNode(dict.chkAc));
+            document.getElementById('chk-txt-f-cupboard').appendChild(document.createTextNode(dict.chkCupboard));
+            document.getElementById('chk-txt-f-sofa').appendChild(document.createTextNode(dict.chkSofa));
+            document.getElementById('chk-txt-f-tv').appendChild(document.createTextNode(dict.chkTv));
+            document.getElementById('chk-txt-f-wifi').appendChild(document.createTextNode(dict.chkWifiLine));
+
+            // Execute component toggles on page context launch alignment
+            const selectElement = document.getElementsByName("property_type")[0];
+            if(selectElement) { handleTypeChange(selectElement); }
+        });
+
+        function updateLabelsByClass(className, translationValue) {
+            const elements = document.getElementsByClassName(className);
+            for (let i = 0; i < elements.length; i++) {
+                if(elements[i].tagName === "OPTION") {
+                    elements[i].text = translationValue;
+                } else {
+                    elements[i].innerText = translationValue;
+                }
+            }
+        }
+
+        // Production-Grade View Switcher Engine with strict Disabled management
+        function handleTypeChange(selectElement) {
+            const selectedType = selectElement.value;
+            const subBoxes = ['amenities-pg-box', 'amenities-flat-box', 'amenities-office-box', 'amenities-chawl-box', 'amenities-generic-box'];
+            
+            subBoxes.forEach(boxId => {
+                document.getElementById(boxId).classList.add('hidden');
+                toggleFormInputs(boxId, true);
+            });
+            
+            if (selectedType === 'PG') {
+                document.getElementById('amenities-pg-box').classList.remove('hidden');
+                toggleFormInputs('amenities-pg-box', false);
+            } else if (selectedType === 'Flat') {
+                document.getElementById('amenities-flat-box').classList.remove('hidden');
+                toggleFormInputs('amenities-flat-box', false);
+            } else if (selectedType === 'Office') {
+                document.getElementById('amenities-office-box').classList.remove('hidden');
+                toggleFormInputs('amenities-office-box', false);
+            } else if (selectedType === 'Chawl') {
+                document.getElementById('amenities-chawl-box').classList.remove('hidden');
+                toggleFormInputs('amenities-chawl-box', false);
+            } else if (selectedType === 'Godown' || selectedType === 'Shed' || selectedType === 'Open space') {
+                document.getElementById('amenities-generic-box').classList.remove('hidden');
+                toggleFormInputs('amenities-generic-box', false);
+            }
+        }
+
+        function toggleFormInputs(containerId, isDisabled) {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.disabled = isDisabled;
+            });
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-6">
+                <h2 id="lbl-main-title" class="text-xl font-black text-blue-950 tracking-tight uppercase">Configure Property Asset</h2>
+                <p id="lbl-sub-title" class="text-[10px] text-slate-400 font-bold tracking-widest uppercase mt-1">OWNER MANAGEMENT PANEL</p>
+            </div>
+
+            <form action="/property/configure/{{ owner_id }}" method="POST" class="space-y-4 flex-1 flex flex-col">
+                
+                <input type="hidden" name="owner_id" value="{{ owner_id }}">
+
+                <div class="space-y-1.5">
+                    <label id="lbl-card-num" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Property Card Number</label>
+                    <input type="text" name="property_card_number" required placeholder="e.g., PR-CARD-99012" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label id="lbl-prop-name" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Property Name / Address</label>
+                    <input type="text" name="pg_name" required placeholder="e.g., Skyline Residency, Pune" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label id="lbl-prop-type" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Property Type</label>
+                    <select name="property_type" onchange="handleTypeChange(this)" required
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition cursor-pointer shadow-2xs">
+                        <option value="" disabled {% if not default_type %}selected{% endif %} id="opt-select-class">Select Property Classification</option>
+                        <option value="PG" {% if default_type == 'PG' %}selected{% endif %} id="opt-pg">🏠 PG (Paying Guest)</option>
+                        <option value="Flat" {% if default_type == 'Flat' %}selected{% endif %} id="opt-flat">🏢 Flat / Apartment</option>
+                        <option value="Office" {% if default_type == 'Office' %}selected{% endif %} id="opt-office">💼 Commercial Office</option>
+                        <option value="Chawl" id="opt-chawl">🏘️ Chawl Units</option>
+                        <option value="Godown" id="opt-godown">🏭 Godown Warehousing</option>
+                        <option value="Shed" id="opt-shed">🛠️ Industrial Shed</option>
+                        <option value="Open space" id="opt-open">🌳 Open Space Asset</option>
+                    </select>
+                </div>
+
+                <div id="amenities-pg-box" class="hidden bg-linear-to-b from-blue-50/40 to-indigo-50/40 border border-blue-100 rounded-2xl p-4 sm:p-5 space-y-3 transition shadow-2xs">
+                    <label id="lbl-pg-specs" class="text-[10px] font-black text-blue-900 uppercase tracking-wider block border-b border-blue-100/60 pb-1.5">PG Inventory Specifics</label>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <label class="lbl-ac-type text-[9px] font-black text-slate-400 uppercase block">AC / Room Ventilation Type</label>
+                            <select name="room_ac_type" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700">
+                                <option value="Non-AC" class="opt-non-ac">Non-AC Standard Room</option>
+                                <option value="AC" class="opt-ac">Air Conditioned (AC Room)</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="lbl-sharing-type text-[9px] font-black text-slate-400 uppercase block">Room Sharing Tier</label>
+                            <select name="sharing_type" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700">
+                                <option value="Single" class="opt-single">Single Occupancy</option>
+                                <option value="Double" class="opt-double">Double Sharing</option>
+                                <option value="Triple" class="opt-triple">Triple Sharing</option>
+                                <option value="Four" class="opt-four">Four Sharing</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 pt-2">
+                        <div class="space-y-1">
+                            <label class="lbl-total-rooms text-[9px] font-black text-slate-400 uppercase block">Total Rooms</label>
+                            <input type="number" name="total_rooms" min="0" value="0" class="w-full text-center p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="lbl-total-beds text-[9px] font-black text-slate-400 uppercase block">Total Beds</label>
+                            <input type="number" name="total_beds" min="0" value="0" class="w-full text-center p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-blue-100">
+                        <label class="lbl-amenities text-[9px] font-black text-slate-400 uppercase block mb-1.5">Available Amenities</label>
+                        <div class="grid grid-cols-2 gap-2.5 text-slate-700">
+                            <label id="chk-txt-bedspace" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Bed" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-wifi" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Wifi" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-geyser" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Geyser" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-purifier" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Water Purifier" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-cupboard" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Cupboard" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="amenities-flat-box" class="hidden bg-slate-50 border border-slate-200/80 rounded-2xl p-4 sm:p-5 space-y-3 transition shadow-2xs">
+                    <label id="lbl-flat-specs" class="text-[10px] font-black text-slate-800 uppercase tracking-wider block border-b border-slate-200/60 pb-1.5">Flat Structural Checklist</label>
+                    
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <label class="lbl-bhk-config text-[9px] font-black text-slate-400 uppercase block">BHK Configuration</label>
+                            <select name="flat_bhk" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 cursor-pointer">
+                                <option value="1BHK" id="opt-1bhk">1 BHK Layout</option>
+                                <option value="2BHK" id="opt-2bhk">2 BHK Layout</option>
+                                <option value="3BHK" id="opt-3bhk">3 BHK Layout</option>
+                                <option value="4BHK" id="opt-4bhk">4 BHK Layout</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1">
+                            <label class="lbl-furnishing text-[9px] font-black text-slate-400 uppercase block">Furnishing Level</label>
+                            <select name="flat_furnishing" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700 cursor-pointer">
+                                <option value="Unfurnished" id="opt-unfurnished">Unfurnished</option>
+                                <option value="Semi Furnished" id="opt-semi">Semi Furnished</option>
+                                <option value="Fully Furnished" id="opt-fully">Fully Furnished</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-2 pt-1">
+                        <div>
+                            <label class="lbl-ac-type block text-[8px] font-black text-slate-400 uppercase">AC Type</label>
+                            <select name="flat_ac_status" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="Non-AC" class="opt-non-ac">Non-AC</option>
+                                <option value="AC" class="opt-ac">AC</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-parking block text-[8px] font-black text-slate-400 uppercase">Parking</label>
+                            <select name="flat_parking" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="None" class="opt-no">None</option>
+                                <option value="Bike">Bike</option>
+                                <option value="Car">Car</option>
+                                <option value="Both">Both</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-security block text-[8px] font-black text-slate-400 uppercase">Security</label>
+                            <select name="flat_security" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="No" class="opt-no">No</option>
+                                <option value="Yes" class="opt-yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-200/60">
+                        <label class="lbl-amenities text-[9px] font-black text-slate-400 uppercase block mb-1.5">Available Amenities</label>
+                        <div class="grid grid-cols-2 text-slate-700 gap-2">
+                            <label id="chk-txt-f-geyser" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Geyser" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-fridge" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Fridge" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-fan" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Fan" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-bed" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Bed" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-ac" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="AC" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-cupboard" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Cupboard" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-sofa" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Sofa" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-tv" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="TV" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                            <label id="chk-txt-f-wifi" class="flex items-center text-xs font-bold gap-2.5 select-none cursor-pointer"><input type="checkbox" name="facilities" value="Wifi" class="w-4 h-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="amenities-office-box" class="hidden bg-slate-50 border border-purple-200 rounded-2xl p-4 sm:p-5 space-y-3 transition shadow-2xs">
+                    <label id="lbl-office-specs" class="text-[10px] font-black text-purple-900 uppercase tracking-wider block border-b border-purple-200 pb-1.5">Office Infrastructure Specs</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="lbl-cabins block text-[9px] font-black text-slate-400 uppercase">Cabins</label>
+                            <input type="number" name="office_cabins" min="0" value="0" class="w-full text-center p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-workstations block text-[9px] font-black text-slate-400 uppercase">Workstations</label>
+                            <input type="number" name="office_workstations" min="0" value="0" class="w-full text-center p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-meeting-rooms block text-[9px] font-black text-slate-400 uppercase">Meeting Rooms</label>
+                            <input type="number" name="office_meeting_rooms" min="0" value="0" class="w-full text-center p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2 pt-1 border-t border-slate-100">
+                        <div>
+                            <label class="lbl-reception block text-[8px] font-black text-slate-400 uppercase">Reception</label>
+                            <select name="office_reception_status" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="No" class="opt-no">No</option>
+                                <option value="Yes" class="opt-yes">Yes</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-internet block text-[8px] font-black text-slate-400 uppercase">Internet</label>
+                            <select name="office_internet_facility" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="No" class="opt-no">No</option>
+                                <option value="Yes" class="opt-yes">Yes</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-parking block text-[8px] font-black text-slate-400 uppercase">Parking</label>
+                            <select name="office_parking_status" class="w-full p-1.5 bg-white border border-slate-200 rounded-lg text-[11px] font-bold">
+                                <option value="No" class="opt-no">No</option>
+                                <option value="Yes" class="opt-yes">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="amenities-chawl-box" class="hidden bg-slate-50 border border-amber-200 rounded-2xl p-4 sm:p-5 space-y-3 transition shadow-2xs">
+                    <label id="lbl-chawl-specs" class="text-[10px] font-black text-amber-900 uppercase tracking-wider block border-b border-amber-200 pb-1.5">Chawl Unit Infrastructure</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="lbl-chawl-room-no block text-[9px] font-black text-slate-400 uppercase">Room Number</label>
+                            <input type="text" name="chawl_room_number" placeholder="e.g. Room-12" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
+                        </div>
+                        <div>
+                            <label class="lbl-chawl-unit-no block text-[9px] font-black text-slate-400 uppercase">Unit Number</label>
+                            <input type="text" name="chawl_unit_number" placeholder="e.g. Unit-3" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3 pt-1 border-t border-slate-100">
+                        <div>
+                            <label class="lbl-water-supply block text-[9px] font-black text-slate-400 uppercase">Water Connection</label>
+                            <select name="chawl_water_connection" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-700">
+                                <option value="Shared" class="opt-shared-water">Common Shared Tap</option>
+                                <option value="Private" class="opt-private-water">Own Dedicated Connection</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-electricity-meter block text-[9px] font-black text-slate-400 uppercase">Electricity Meter</label>
+                            <input type="text" name="chawl_electricity_meter_no" placeholder="Meter Sub-ID" class="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="amenities-generic-box" class="hidden bg-slate-50 border border-slate-300 rounded-2xl p-4 sm:p-5 space-y-3 transition shadow-2xs">
+                    <label id="lbl-generic-specs" class="text-[10px] font-black text-slate-700 uppercase tracking-wider block border-b border-slate-200 pb-1.5">Industrial & Open Asset Specs</label>
+                    <div>
+                        <label class="lbl-generic-capacity block text-[9px] font-black text-slate-400 uppercase mb-1">Industrial Asset Capacity Details</label>
+                        <input type="text" name="generic_area_specification" placeholder="e.g. 4500 Sq. Ft. Total Clear Area Boundary" class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                    <label id="lbl-property-terms" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Property Specific Terms & Conditions</label>
+                    <textarea name="property_terms" rows="3" required placeholder="Enter rule declarations... e.g., Monthly rent due before the 5th, 1-month advance notice required for checkout, no smoking inside premises."
+                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-medium text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition"></textarea>
+                </div>
+
+                <div class="pt-4 mt-auto">
+                    <button type="submit" class="w-full py-3.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl font-black text-xs tracking-widest uppercase transition-all duration-200 shadow-md shadow-blue-900/10 cursor-pointer text-center">
+                        <span id="btn-save-txt">Save Property Profile</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div id="lbl-ad-txt" class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                ADVERTISE WINDOW
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

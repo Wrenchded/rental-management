@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Inventory Entry</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Centralized Client-Side Language Matrix for Inventory Setup Form Panels
+        const languageDictionary = {
+            en: {
+                mainTitle: "Property Details",
+                subTitle: "Configure Inventory Metrics",
+                lblPropType: "Select Property Type",
+                lblPgName: "Property / Asset Name",
+                lblCorpName: "Corporation Name",
+                lblAddress: "Detailed Asset Address",
+                lblTerms: "Property-Specific Terms & Conditions",
+                btnSubmit: "Generate Live Workspace Dashboard",
+                adWindow: "ADVERTISE WINDOW",
+
+                // Sub-Module Headers & Fields
+                lblAcNonAc: "AC / Non-AC Status",
+                lblSharingType: "Sharing Configuration",
+                lblTotalRooms: "Total Rooms",
+                lblTotalBeds: "Total Beds",
+                lblAvailableBeds: "Available Beds",
+                lblOccupiedBeds: "Occupied Beds",
+                lblFacilities: "Facilities Included",
+                lblFurnishing: "Furnishing Level",
+                lblParking: "Parking Availability",
+                lblSecurity: "Security Staff Layer",
+                lblCabinCount: "Cabin Count",
+                lblWorkstations: "Workstations Count",
+                lblMeetingRooms: "Meeting Rooms Count",
+                lblReception: "Reception Area",
+                lblInternet: "Internet Facility",
+                lblRoomNo: "Room Number",
+                lblUnitNo: "Unit Number",
+                lblWaterConn: "Water Connection",
+                lblElecMeter: "Electricity Meter Reference",
+                lblGenericSpec: "Asset Capacity / Dimensions Specifications"
+            },
+            hi: {
+                mainTitle: "संपत्ति का विवरण",
+                subTitle: "इन्वेंटरी मेट्रिक्स कॉन्फ़िगर करें",
+                lblPropType: "संपत्ति का प्रकार चुनें",
+                lblPgName: "संपत्ति / एसेट का नाम",
+                lblCorpName: "कॉरपोरेशन का नाम",
+                lblAddress: "संपत्ति का पूरा पता",
+                lblTerms: "संपत्ति-विशिष्ट नियम और शर्तें",
+                btnSubmit: "लाइव वर्कस्पेस डैशबोर्ड जेनरेट करें",
+                adWindow: "विज्ञापन विंडो",
+
+                // Sub-Module Headers & Fields
+                lblAcNonAc: "एसी / नॉन-एसी स्थिति",
+                lblSharingType: "शेयरिंग कॉन्फ़िगरेशन",
+                lblTotalRooms: "कुल कमरे",
+                lblTotalBeds: "कुल बेड",
+                lblAvailableBeds: "उपलब्ध बेड",
+                lblOccupiedBeds: "भरे हुए बेड (Occupied)",
+                lblFacilities: "शामिल सुविधाएं",
+                lblFurnishing: "फर्निचर का स्तर",
+                lblParking: "पार्किंग की उपलब्धता",
+                lblSecurity: "सुरक्षा स्टाफ लेयर",
+                lblCabinCount: "केबिन की संख्या",
+                lblWorkstations: "वर्कस्टेशन की संख्या",
+                lblMeetingRooms: "मीटिंग रूम की संख्या",
+                lblReception: "रिसेप्शन क्षेत्र",
+                lblInternet: "इंटरनेट सुविधा",
+                lblRoomNo: "कमरा नंबर",
+                lblUnitNo: "यूनिट नंबर",
+                lblWaterConn: "पानी का कनेक्शन",
+                lblElecMeter: "बिजली मीटर संदर्भ",
+                lblGenericSpec: "संपत्ति क्षमता / आयाम विनिर्देश"
+            },
+            mr: {
+                mainTitle: "मालमत्ता तपशील",
+                subTitle: "इन्वेंटरी मेट्रिक्स सेट करा",
+                lblPropType: "मालमत्तेचा प्रकार निवडा",
+                lblPgName: "मालमत्तेचे नाव",
+                lblCorpName: "कॉरपोरेशनचे नाव",
+                lblAddress: "मालमत्तेचा सविस्तर पत्ता",
+                lblTerms: "मालमत्ता-विशिष्ट अटी आणि शर्ती",
+                btnSubmit: "लाइव वर्कस्पेस डॅशबोर्ड तयार करा",
+                adWindow: "जाहिरात विंडो",
+
+                // Sub-Module Headers & Fields
+                lblAcNonAc: "एसी / नॉन-एसी स्थिती",
+                lblSharingType: "शेअरिंग कॉन्फिगरेशन",
+                lblTotalRooms: "एकूण खोल्या",
+                lblTotalBeds: "एकूण बेड",
+                lblAvailableBeds: "उपलब्ध बेड",
+                lblOccupiedBeds: "भरलेले बेड (Occupied)",
+                lblFacilities: "समाविष्ट सोयी-सुविधा",
+                lblFurnishing: "फर्निशिंग पातळी",
+                lblParking: "पार्किंगची उपलब्धता",
+                lblSecurity: "सुरक्षा रक्षक व्यवस्था",
+                lblCabinCount: "केबिनची संख्या",
+                lblWorkstations: "वर्कस्टेशन्स संख्या",
+                lblMeetingRooms: "मीटिंग रूम्स संख्या",
+                lblReception: "रिसेप्शन क्षेत्र",
+                lblInternet: "इंटरनेट सुविधा",
+                lblRoomNo: "खोली क्रमांक",
+                lblUnitNo: "युनिट क्रमांक",
+                lblWaterConn: "पाणी कनेक्शन",
+                lblElecMeter: "वीज मीटर संदर्भ",
+                lblGenericSpec: "मालमत्ता क्षमता / परिमाणे तपशील"
+            }
+        };
+
+        // DOM Translation Execution Hook
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            const dict = languageDictionary[activeLang] || languageDictionary['en'];
+            
+            // Map Language Dictionary Elements to DOM Text Nodes
+            document.getElementById('lbl-main-title').innerText = dict.mainTitle;
+            document.getElementById('lbl-sub-title').innerText = dict.subTitle;
+            document.getElementById('lbl-prop-type').innerText = dict.lblPropType;
+            document.getElementById('lbl-pg-name').innerText = dict.lblPgName;
+            document.getElementById('lbl-corp-name').innerText = dict.lblCorpName;
+            document.getElementById('lbl-address').innerText = dict.lblAddress;
+            document.getElementById('lbl-terms').innerText = dict.lblTerms;
+            document.getElementById('btn-submit-txt').innerText = dict.btnSubmit;
+            document.getElementById('lbl-ad-txt').innerText = dict.adWindow;
+
+            // Map sub-module language references dynamically using class metrics
+            updateLabelsByClass('lbl-dynamic-ac', dict.lblAcNonAc);
+            updateLabelsByClass('lbl-dynamic-sharing', dict.lblSharingType);
+            updateLabelsByClass('lbl-dynamic-rooms', dict.lblTotalRooms);
+            updateLabelsByClass('lbl-dynamic-beds', dict.lblTotalBeds);
+            updateLabelsByClass('lbl-dynamic-availbeds', dict.lblAvailableBeds);
+            updateLabelsByClass('lbl-dynamic-occupied', dict.lblOccupiedBeds);
+            updateLabelsByClass('lbl-dynamic-facilities', dict.lblFacilities);
+            updateLabelsByClass('lbl-dynamic-furnishing', dict.lblFurnishing);
+            updateLabelsByClass('lbl-dynamic-parking', dict.lblParking);
+            updateLabelsByClass('lbl-dynamic-security', dict.lblSecurity);
+            updateLabelsByClass('lbl-dynamic-cabins', dict.lblCabinCount);
+            updateLabelsByClass('lbl-dynamic-workstations', dict.lblWorkstations);
+            updateLabelsByClass('lbl-dynamic-meeting', dict.lblMeetingRooms);
+            updateLabelsByClass('lbl-dynamic-reception', dict.lblReception);
+            updateLabelsByClass('lbl-dynamic-internet', dict.lblInternet);
+            updateLabelsByClass('lbl-dynamic-roomno', dict.lblRoomNo);
+            updateLabelsByClass('lbl-dynamic-unitno', dict.lblUnitNo);
+            updateLabelsByClass('lbl-dynamic-water', dict.lblWaterConn);
+            updateLabelsByClass('lbl-dynamic-elecmeter', dict.lblElecMeter);
+            updateLabelsByClass('lbl-dynamic-generic', dict.lblGenericSpec);
+
+            // Trigger initial form visualization view state evaluation
+            handlePropertyTypeChange();
+        });
+
+        function updateLabelsByClass(className, translationValue) {
+            const elements = document.getElementsByClassName(className);
+            for (let i = 0; i < elements.length; i++) {
+                elements[i].innerText = translationValue;
+            }
+        }
+
+        // Pure JS dynamic panel toggler to keep forms clean and responsive
+        function handlePropertyTypeChange() {
+            const selectedType = document.getElementById('property_type').value;
+            const subModules = ['mod-pg', 'mod-flat', 'mod-commercial-office', 'mod-chawl', 'mod-generic-warehouse'];
+            
+            // Deactivate display panels cleanly
+            subModules.forEach(modId => {
+                document.getElementById(modId).classList.add('hidden');
+                toggleFormInputs(modId, true);
+            });
+
+            // Evaluate target activation route mapping rules
+            if (selectedType === 'PG') {
+                document.getElementById('mod-pg').classList.remove('hidden');
+                toggleFormInputs('mod-pg', false);
+            } else if (selectedType === 'Flat') {
+                document.getElementById('mod-flat').classList.remove('hidden');
+                toggleFormInputs('mod-flat', false);
+            } else if (selectedType === 'Office' || selectedType === 'Commercial') {
+                document.getElementById('mod-commercial-office').classList.remove('hidden');
+                toggleFormInputs('mod-commercial-office', false);
+            } else if (selectedType === 'Chawl') {
+                document.getElementById('mod-chawl').classList.remove('hidden');
+                toggleFormInputs('mod-chawl', false);
+            } else if (selectedType === 'Godown' || selectedType === 'Shed' || selectedType === 'Open Space') {
+                document.getElementById('mod-generic-warehouse').classList.remove('hidden');
+                toggleFormInputs('mod-generic-warehouse', false);
+            }
+        }
+
+        // Toggles sub-form fields disabled state so hidden data isn't erroneously transmitted to backend
+        function toggleFormInputs(containerId, isDisabled) {
+            const container = document.getElementById(containerId);
+            const inputs = container.querySelectorAll('input, select, textarea');
+            inputs.forEach(input => {
+                input.disabled = isDisabled;
+            });
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-6">
+                <h1 id="lbl-main-title" class="text-xl font-black text-blue-950 tracking-tight uppercase">Property Details</h1>
+                <p id="lbl-sub-title" class="text-[10px] text-slate-400 tracking-widest uppercase font-bold mt-1">Configure Inventory Metrics</p>
+            </div>
+
+            <form action="/register/property" method="POST" class="space-y-4">
+                <input type="hidden" name="owner_id" value="{{ owner_id }}">
+                
+                <div>
+                    <label id="lbl-prop-type" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Select Property Type</label>
+                    <select name="property_type" id="property_type" onchange="handlePropertyTypeChange()"
+                            class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                        <option value="PG">🏢 PG</option>
+                        <option value="Flat">🏠 Flat</option>
+                        <option value="Office">💼 Office</option>
+                        <option value="Commercial">🏪 Commercial</option>
+                        <option value="Chawl">🏘️ Chawl</option>
+                        <option value="Godown">🏭 Godown</option>
+                        <option value="Shed">🛖 Shed</option>
+                        <option value="Open Space">🏞️ Open Space</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label id="lbl-pg-name" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Property / Asset Name</label>
+                    <input type="text" name="pg_name" required placeholder="e.g. Skyline Living"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <div>
+                    <label id="lbl-corp-name" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Corporation Name</label>
+                    <input type="text" name="corporation_name" required placeholder="e.g. Skyline Logistics Ltd"
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+
+                <!-- ==================== SUB MODULE: PG CONFIGURATION ==================== -->
+                <div id="mod-pg" class="space-y-4 border-l-2 border-blue-900 pl-3 my-2">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-ac block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">AC / Non-AC Status</label>
+                            <select name="pg_ac_status" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Non-AC">Non-AC</option>
+                                <option value="AC">AC</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-sharing block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Sharing Configuration</label>
+                            <select name="pg_sharing_type" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Single">Single Sharing</option>
+                                <option value="Double">Double Sharing</option>
+                                <option value="Triple">Triple Sharing</option>
+                                <option value="Four">Four Sharing</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-4 gap-1.5">
+                        <div>
+                            <label class="lbl-dynamic-rooms block text-[9px] font-black text-slate-400 mb-1 uppercase tracking-tight">Total Rooms</label>
+                            <input type="number" name="pg_total_rooms" value="5" min="0" class="w-full text-center p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-beds block text-[9px] font-black text-slate-400 mb-1 uppercase tracking-tight">Total Beds</label>
+                            <input type="number" name="pg_total_beds" value="20" min="0" class="w-full text-center p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-availbeds block text-[9px] font-black text-slate-400 mb-1 uppercase tracking-tight">Avail Beds</label>
+                            <input type="number" name="pg_available_beds" value="8" min="0" class="w-full text-center p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-occupied block text-[9px] font-black text-slate-400 mb-1 uppercase tracking-tight">Occupied</label>
+                            <input type="number" name="pg_occupied_beds" value="12" min="0" class="w-full text-center p-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="lbl-dynamic-facilities block text-[10px] font-black text-slate-500 mb-1 uppercase tracking-wider">Facilities Included</label>
+                        <input type="text" name="pg_facilities" placeholder="e.g. Wi-Fi, Laundry, Geyser, Food" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800">
+                    </div>
+                </div>
+
+                <!-- ==================== SUB MODULE: FLAT CONFIGURATION ==================== -->
+                <div id="mod-flat" class="space-y-4 border-l-2 border-emerald-600 pl-3 my-2 hidden">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-ac block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">AC / Non-AC Status</label>
+                            <select name="flat_ac_status" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Non-AC">Non-AC</option>
+                                <option value="AC">AC</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-furnishing block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Furnishing Level</label>
+                            <select name="flat_furnishing" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Unfurnished">Unfurnished</option>
+                                <option value="Semi-Furnished">Semi-Furnished</option>
+                                <option value="Furnished">Fully Furnished</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-parking block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Parking Availability</label>
+                            <select name="flat_parking" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Yes">Available (Bike/Car)</option>
+                                <option value="No">Not Available</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-security block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Security Staff Layer</label>
+                            <select name="flat_security" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900">
+                                <option value="Yes">24/7 Security Guard</option>
+                                <option value="No">None</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SUB MODULE: COMMERCIAL & OFFICE CONFIGURATION ==================== -->
+                <div id="mod-commercial-office" class="space-y-4 border-l-2 border-purple-700 pl-3 my-2 hidden">
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-cabins block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Cabin Count</label>
+                            <input type="number" name="comm_cabins" value="2" min="0" class="w-full text-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-workstations block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Workstations</label>
+                            <input type="number" name="comm_workstations" value="15" min="0" class="w-full text-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-meeting block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Meeting Rooms</label>
+                            <input type="number" name="comm_meeting_rooms" value="1" min="0" class="w-full text-center p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-reception block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Reception Area</label>
+                            <select name="comm_reception" class="w-full px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-internet block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Internet</label>
+                            <select name="comm_internet" class="w-full px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold">
+                                <option value="Yes">High Speed Fiber</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-parking block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Parking</label>
+                            <select name="comm_parking" class="w-full px-2 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-[11px] font-bold">
+                                <option value="Yes">Reserved</option>
+                                <option value="No">No</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SUB MODULE: CHAWL CONFIGURATION ==================== -->
+                <div id="mod-chawl" class="space-y-4 border-l-2 border-amber-600 pl-3 my-2 hidden">
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-roomno block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Room Number</label>
+                            <input type="text" name="chawl_room_no" placeholder="e.g. 14" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold">
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-unitno block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Unit Number</label>
+                            <input type="text" name="chawl_unit_no" placeholder="e.g. Block-B" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="lbl-dynamic-water block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Water Connection</label>
+                            <select name="chawl_water" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                                <option value="Own Tap">Dedicated / Own Tap</option>
+                                <option value="Shared">Common Shared Tap</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="lbl-dynamic-elecmeter block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Electricity Meter</label>
+                            <select name="chawl_electricity" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                                <option value="Separate">Separate Sub-Meter</option>
+                                <option value="Shared">Shared Grid Context</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ==================== SUB MODULE: GENERIC WAREHOUSE CONFIGURATION (Godown, Shed, Open Space) ==================== -->
+                <div id="mod-generic-warehouse" class="space-y-4 border-l-2 border-slate-500 pl-3 my-2 hidden">
+                    <div>
+                        <label class="lbl-dynamic-generic block text-[10px] font-black text-slate-500 mb-1.5 uppercase tracking-wider">Asset Capacity / Dimensions Specifications</label>
+                        <input type="text" name="generic_capacity_sqft" placeholder="e.g. 5000 Sq. Ft. built-up industrial ceiling layout"
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label id="lbl-address" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Detailed Asset Address</label>
+                    <textarea name="address" rows="2" required placeholder="Enter complete geographic physical structure location parameters"
+                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs"></textarea>
+                </div>
+
+                <div>
+                    <label id="lbl-terms" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Property-Specific Terms & Conditions</label>
+                    <textarea name="terms_and_conditions" rows="3" required placeholder="Enter primary legal rules, late rent fees policies, and specific operational restrictions..."
+                              class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs"></textarea>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" class="w-full py-3.5 bg-blue-900 text-white font-black uppercase tracking-wider rounded-xl shadow-md shadow-blue-900/10 text-xs hover:bg-blue-950 transition-all duration-200 cursor-pointer text-center">
+                        <span id="btn-submit-txt">Generate Live Workspace Dashboard</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div id="lbl-ad-txt" class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                ADVERTISE WINDOW
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

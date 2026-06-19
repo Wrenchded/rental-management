@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Technician</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-slate-100 p-8">
+
+    <div class="max-w-md mx-auto bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+        <h2 class="text-2xl font-black text-slate-950 mb-6">Register New Technician</h2>
+        
+        <form method="POST" action="/dashboard/add-technician" class="space-y-4">
+            <input type="hidden" name="owner_id" value="{{ owner.owner_id }}">
+
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Full Name</label>
+                <input type="text" name="name" class="w-full p-3 border border-slate-200 rounded-xl" required>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Specialization</label>
+                <select name="specialization" class="w-full p-3 border border-slate-200 rounded-xl" required>
+                    <option value="Plumber">Plumber</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Carpenter">Carpenter</option>
+                    <option value="General Handyman">General Handyman</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Contact Number</label>
+                <input type="tel" name="phone" class="w-full p-3 border border-slate-200 rounded-xl" required>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-950 text-white font-black py-3 rounded-xl hover:bg-blue-900 transition">
+                SAVE TECHNICIAN
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>

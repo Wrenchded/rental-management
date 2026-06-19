@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PropertyHub Portal Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // 1. Language Translation Dictionary Matrix
+        const translations = {
+            en: {
+                logo: "OUR COMPANY LOGO & NAME",
+                sub: "Mobile Discovery Gateway",
+                title: "Sign In / Register",
+                label_mobile: "Mobile Number",
+                placeholder_mobile: "Enter 10-digit mobile",
+                label_email: "Email Address",
+                placeholder_email: "name@example.com",
+                role_prompt: "CHOOSE YOUR PORTAL ROLE",
+                btn_owner: "🏢 Log In / Register as Owner",
+                btn_tenant: "🔑 Log In / Register as Tenant",
+                ad: "ADVERTISE WINDOW"
+            },
+            hi: {
+                logo: "हमारी कंपनी का नाम और लोगो",
+                sub: "मोबाइल डिस्कवरी गेटवे",
+                title: "साइन इन / पंजीकरण",
+                label_mobile: "मोबाइल नंबर",
+                placeholder_mobile: "10-अंकीय मोबाइल नंबर दर्ज करें",
+                label_email: "ईमेल पता",
+                placeholder_email: "name@example.com",
+                role_prompt: "अपनी पोर्टल भूमिका चुनें",
+                btn_owner: "🏢 मालिक के रूप में लॉग इन / पंजीकरण करें",
+                btn_tenant: "🔑 किरायेदार के रूप में लॉग इन / पंजीकरण करें",
+                ad: "विज्ञापन विंडो"
+            },
+            mr: {
+                logo: "आमच्या कंपनीचे नाव आणि लोगो",
+                sub: "मोबाईल डिस्कवरी गेटवे",
+                title: "साइन इन / नोंदणी",
+                label_mobile: "मोबाईल नंबर",
+                placeholder_mobile: "10-अंकीय मोबाईल नंबर टाका",
+                label_email: "ईमेल पत्ता",
+                placeholder_email: "ईमेल पत्ता",
+                role_prompt: "तुमची पोर्टल भूमिका निवडा",
+                btn_owner: "🏢 घरमालक म्हणून लॉग इन / नोंदणी करा",
+                btn_tenant: "🔑 भाडेकरू म्हणून लॉग इन / नोंदणी करा",
+                ad: "जाहिरात विंडो"
+            }
+        };
+
+        // 2. Updated Language Switching Logic Engine
+        // Updates client view labels AND notifies the FastAPI server background state simultaneously
+        async function changeLanguage(lang) {
+            // Update Client-side interface instantly
+            document.getElementById('txt-logo').innerText = translations[lang].logo;
+            document.getElementById('txt-sub').innerText = translations[lang].sub;
+            document.getElementById('txt-title').innerText = translations[lang].title;
+            document.getElementById('lbl-mobile').innerText = translations[lang].label_mobile;
+            document.getElementById('input-mobile').placeholder = translations[lang].placeholder_mobile;
+            document.getElementById('lbl-email').innerText = translations[lang].label_email;
+            document.getElementById('input-email').placeholder = translations[lang].placeholder_email;
+            document.getElementById('txt-role-prompt').innerText = translations[lang].role_prompt;
+            document.getElementById('span-owner').innerText = translations[lang].btn_owner;
+            document.getElementById('span-tenant').innerText = translations[lang].btn_tenant;
+            document.getElementById('txt-ad').innerText = translations[lang].ad;
+
+            // Fire atomic tracking background payload fetch request to commit choice onto backend state cookies
+            try {
+                await fetch(`/set-language/${lang}`);
+            } catch (err) {
+                console.error("Failed to commit language session sync payload:", err);
+            }
+        }
+
+        // Auto-align picker state layout position with cookie configuration variables on layout load
+        window.addEventListener('DOMContentLoaded', () => {
+            const currentLang = "{{ request.session.get('lang', 'en') }}";
+            const selectPicker = document.getElementById('lang-picker');
+            if (selectPicker) {
+                selectPicker.value = currentLang;
+                changeLanguage(currentLang);
+            }
+        });
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-2xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 lg:p-10 flex flex-col relative">
+        
+        <div class="flex justify-end mb-4">
+            <select id="lang-picker" onchange="changeLanguage(this.value)" class="text-xs bg-slate-50 border border-slate-200 rounded-xl p-2 focus:outline-none focus:ring-2 focus:ring-blue-900 font-bold text-slate-600 cursor-pointer shadow-xs">
+                <option value="en">🌐 English</option>
+                <option value="hi">🌐 हिंदी (Hindi)</option>
+                <option value="mr">🌐 मराठी (Marathi)</option>
+            </select>
+        </div>
+        
+        <div class="text-center mb-8">
+            <h1 id="txt-logo" class="text-xl sm:text-2xl font-black text-blue-950 tracking-tight uppercase">OUR COMPANY LOGO & NAME</h1>
+            <p id="txt-sub" class="text-[10px] text-slate-400 tracking-widest uppercase font-bold mt-1">Mobile Discovery Gateway</p>
+        </div>
+
+        <form action="/login" method="POST" class="flex-1 flex flex-col justify-center space-y-6 max-w-md mx-auto w-full">
+            
+            <div class="bg-slate-50 border border-slate-200/70 rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xs">
+                <h3 id="txt-title" class="text-center font-black text-slate-700 text-sm uppercase tracking-wide">Sign In / Register</h3>
+                
+                <div>
+                    <label id="lbl-mobile" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Mobile Number</label>
+                    <input type="text" id="input-mobile" name="mobile" required placeholder="Enter 10-digit mobile" 
+                           class="w-full text-center px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition shadow-2xs">
+                </div>
+
+                <div>
+                    <label id="lbl-email" class="block text-xs font-bold text-slate-500 mb-1.5 uppercase tracking-wider">Email Address</label>
+                    <input type="email" id="input-email" name="email" required placeholder="name@example.com" 
+                           class="w-full text-center px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:border-blue-900 transition shadow-2xs">
+                </div>
+            </div>
+
+            <div class="space-y-3 pt-2">
+                <p id="txt-role-prompt" class="text-center text-[10px] font-black text-slate-400 tracking-widest uppercase">CHOOSE YOUR PORTAL ROLE</p>
+                
+                <button type="submit" name="role" value="Owner" 
+                        class="w-full py-3.5 bg-slate-50 hover:bg-blue-950 hover:text-white text-slate-700 font-bold border border-slate-200 rounded-xl shadow-xs transition duration-200 text-xs uppercase tracking-wider flex items-center justify-center cursor-pointer">
+                    <span id="span-owner">🏢 Log In / Register as Owner</span>
+                </button>
+
+                <button type="submit" name="role" value="Tenant" 
+                        class="w-full py-3.5 bg-slate-50 hover:bg-blue-950 hover:text-white text-slate-700 font-bold border border-slate-200 rounded-xl shadow-xs transition duration-200 text-xs uppercase tracking-wider flex items-center justify-center cursor-pointer">
+                    <span id="span-tenant">🔑 Log In / Register as Tenant</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div id="txt-ad" class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                ADVERTISE WINDOW
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

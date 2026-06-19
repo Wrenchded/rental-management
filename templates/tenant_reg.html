@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Registration Panel</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Centralized Client-Side Language Matrix for Tenant Registration Form
+        const languageDictionary = {
+            en: {
+                mainTitle: "Tenant Registration",
+                subTitle: "MANAGEMENT ONBOARDING SYSTEM",
+                lblFullName: "Full Name of Tenant",
+                lblContact: "Contact Number",
+                lblEmergencyContact: "Emergency Contact / Guardian Number",
+                lblPropertyRef: "Assigned Property Card / Room Reference",
+                lblIdType: "Government Identity Verification Type",
+                lblIdNumber: "Identity Document Number",
+                lblVehicleType: "Authorized Vehicle Classification",
+                lblVehicleNo: "Vehicle Registration Number(s)",
+                lblAdvancePaid: "Security Advance Paid (₹)",
+                lblStayStart: "Stay Commencement Date",
+                btnRegister: "Onboard Tenant Profile",
+                adWindow: "VALIDATION CONSOLE",
+                lblInstitution: "Institution / Organization Name",
+                phInstitution: "e.g., Symbiosis / TCS",
+
+                // Identity Dropdown Options
+                optSelectId: "Select Identification Document",
+                optPan: "PAN Card (Permanent Account Number)",
+                optDl: "Driving License",
+                optPassport: "International Passport",
+                optAadhaar: "Aadhaar Card (UIDAI Verified Verification)",
+
+                // Vehicle Dropdown Options
+                optNoVehicle: "No Vehicle Authorized",
+                optTwoWheeler: "Two Wheeler Only (Bike/Scooter)",
+                optFourWheeler: "Four Wheeler Only (Car/SUV)",
+                optBothVehicles: "Both (Two & Four Wheeler)",
+
+                // Placeholders
+                phName: "e.g., Aditya Sarmalkar",
+                phPhone: "e.g., +91 98765 43210",
+                phIdPlaceholder: "Enter chosen document alphanumeric code",
+                phVehicleNo: "e.g., MH-12-XX-XXXX"
+            },
+            hi: {
+                mainTitle: "किरायेदार पंजीकरण",
+                subTitle: "प्रबंधन ऑनबोर्डिंग प्रणाली",
+                lblFullName: "किरायेदार का पूरा नाम",
+                lblContact: "संपर्क नंबर",
+                lblEmergencyContact: "आपातकालीन संपर्क / अभिभावक नंबर",
+                lblPropertyRef: "आवंटित संपत्ति कार्ड / कमरा संदर्भ",
+                lblIdType: "सरकारी पहचान पत्र का प्रकार",
+                lblIdNumber: "पहचान पत्र संख्या",
+                lblVehicleType: "अधिकृत वाहन वर्गीकरण",
+                lblVehicleNo: "वाहन पंजीकरण संख्या (नंबर प्लेट)",
+                lblAdvancePaid: "अग्रिम सुरक्षा राशि भुगतान (₹)",
+                lblStayStart: "निवास प्रारंभ तिथि",
+                btnRegister: "किरायेदार प्रोफ़ाइल ऑनबोर्ड करें",
+                adWindow: "सत्यापन कंसोल",
+                lblInstitution: "संस्थान / संगठन का नाम",
+                phInstitution: "जैसे: सिम्बायोसिस / टीसीएस",
+                lblUploadDoc: "पहचान पत्र दस्तावेज़ अपलोड करें (वैकल्पिक)",
+
+                // Identity Dropdown Options
+                optSelectId: "पहचान पत्र का चयन करें",
+                optPan: "पैन कार्ड (PAN Card)",
+                optDl: "ड्राइविंग लाइसेंस (Driving License)",
+                optPassport: "पासपोर्ट",
+                optAadhaar: "आधार कार्ड (Aadhaar Card)",
+
+                // Vehicle Dropdown Options
+                optNoVehicle: "कोई वाहन अधिकृत नहीं है",
+                optTwoWheeler: "केवल दुपहिया वाहन (Two Wheeler)",
+                optFourWheeler: "केवल चार पहिया वाहन (Four Wheeler)",
+                optBothVehicles: "दोनों (दुपहिया और चार पहिया वाहन)",
+
+                // Placeholders
+                phName: "जैसे: आदित्य सरमलकर",
+                phPhone: "जैसे: +91 98765 43210",
+                phIdPlaceholder: "चुने गए दस्तावेज़ का अल्फ़ान्यूमेरिक कोड दर्ज करें",
+                phVehicleNo: "जैसे: MH-12-XX-XXXX"
+            },
+            mr: {
+                mainTitle: "भाडेकरू नोंदणी",
+                subTitle: "व्यवस्थापन ऑनबोर्डिंग प्रणाली",
+                lblFullName: "भाडेकरूचे पूर्ण नाव",
+                lblContact: "संपर्क क्रमांक",
+                lblEmergencyContact: "आणीबाणीचा संपर्क / पालकांचा नंबर",
+                lblPropertyRef: "नियुक्त मालमत्ता कार्ड / खोली संदर्भ",
+                lblIdType: "शासकीय ओळखपत्राचा प्रकार",
+                lblIdNumber: "ओळखपत्र क्रमांक",
+                lblVehicleType: "अधिकृत वाहन वर्गीकरण",
+                lblVehicleNo: "वाहन नोंदणी क्रमांक (नंबर प्लेट)",
+                lblAdvancePaid: "भरलेली सुरक्षा अनामत रक्कम (₹)",
+                lblStayStart: "राहावयाची सुरुवात तारीख",
+                btnRegister: "भाडेकरू प्रोफाइल नोंदवा",
+                adWindow: "व्हेरिफिकेशन कन्सोल",
+                lblInstitution: "संस्था / संस्थेचे नाव",
+                phInstitution: "उदा: सिम्बायोसिस / टीसीएस",
+                lblUploadDoc: "ओळखपत्र दस्तऐवज अपलोड करा (पर्यायी)",
+
+                // Identity Dropdown Options
+                optSelectId: "शासकीय ओळखपत्र निवडा",
+                optPan: "पॅन कार्ड (PAN Card)",
+                optDl: "ड्रायव्हिंग लायसन्स (Driving License)",
+                optPassport: "पासपोर्ट (Passport)",
+                optAadhaar: "आधार कार्ड (Aadhaar Card)",
+
+                // Vehicle Dropdown Options
+                optNoVehicle: "कोणतेही वाहन अधिकृत नाही",
+                optTwoWheeler: "फक्त दुचाकी वाहन (Two Wheeler)",
+                optFourWheeler: "फक्त चारचाकी वाहन (Four Wheeler)",
+                optBothVehicles: "दोन्ही (दुचाकी आणि चारचाकी)",
+
+                // Placeholders
+                phName: "उदा: आदित्य सरमळकर",
+                phPhone: "उदा: +91 98765 43210",
+                phIdPlaceholder: "निवडलेल्या दस्तऐवजाचा अल्फान्यूमेरिक कोड प्रविष्ट करा",
+                phVehicleNo: "उदा: MH-12-XX-XXXX"
+            }
+        };
+
+        // DOM Translation Execution Hook
+        window.addEventListener('DOMContentLoaded', () => {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            const dict = languageDictionary[activeLang] || languageDictionary['en'];
+            
+            // Text Node Text Conversions
+            document.getElementById('lbl-main-title').innerText = dict.mainTitle;
+            document.getElementById('lbl-sub-title').innerText = dict.subTitle;
+            document.getElementById('lbl-full-name').innerText = dict.lblFullName;
+            document.getElementById('lbl-contact').innerText = dict.lblContact;
+            document.getElementById('lbl-emergency-contact').innerText = dict.lblEmergencyContact;
+            document.getElementById('lbl-property-ref').innerText = dict.lblPropertyRef;
+            document.getElementById('lbl-id-type').innerText = dict.lblIdType;
+            document.getElementById('lbl-id-number').innerText = dict.lblIdNumber;
+            document.getElementById('lbl-vehicle-type').innerText = dict.lblVehicleType;
+            document.getElementById('lbl-vehicle-no').innerText = dict.lblVehicleNo;
+            document.getElementById('lbl-advance-paid').innerText = dict.lblAdvancePaid;
+            document.getElementById('lbl-stay-start').innerText = dict.lblStayStart;
+            document.getElementById('btn-register-txt').innerText = dict.btnRegister;
+            document.getElementById('lbl-ad-txt').innerText = dict.adWindow;
+            document.getElementById('lbl-institution').innerText = dict.lblInstitution;
+            document.getElementById('lbl-upload-doc').innerText = dict.lblUploadDoc;
+
+            // Select Dropdown Option Direct Injection
+            document.getElementById('opt-select-id').innerText = dict.optSelectId;
+            document.getElementById('opt-pan').innerText = dict.optPan;
+            document.getElementById('opt-dl').innerText = dict.optDl;
+            document.getElementById('opt-passport').innerText = dict.optPassport;
+            document.getElementById('opt-aadhaar').innerText = dict.optAadhaar;
+
+            document.getElementById('opt-no-vehicle').innerText = dict.optNoVehicle;
+            document.getElementById('opt-two-wheeler').innerText = dict.optTwoWheeler;
+            document.getElementById('opt-four-wheeler').innerText = dict.optFourWheeler;
+            document.getElementById('opt-both-vehicles').innerText = dict.optBothVehicles;
+
+            // Form Fields Placeholders Updates
+            document.getElementsByName('tenant_name')[0].placeholder = dict.phName;
+            document.getElementsByName('tenant_contact')[0].placeholder = dict.phPhone;
+            document.getElementsByName('emergency_contact')[0].placeholder = dict.phPhone;
+            document.getElementsByName('id_number')[0].placeholder = dict.phIdPlaceholder;
+            document.getElementsByName('vehicle_number')[0].placeholder = dict.phVehicleNo;
+            document.getElementsByName('institution_name')[0].placeholder = dict.phInstitution;
+        });
+
+        // Dynamic Interface Toggles for Vehicle Details Component UI
+        function handleVehicleTypeChange(selectElement) {
+            const vehicleNoBox = document.getElementById('vehicle-no-input-box');
+            const vehicleNoField = document.getElementsByName('vehicle_number')[0];
+            
+            if (selectElement.value === "None") {
+                vehicleNoBox.classList.add('hidden');
+                vehicleNoField.required = false;
+                vehicleNoField.disabled = true;
+                vehicleNoField.value = "";
+            } else {
+                vehicleNoBox.classList.remove('hidden');
+                vehicleNoField.disabled = false;
+                vehicleNoField.required = true;
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <!-- Header Frame -->
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-6">
+                <h2 id="lbl-main-title" class="text-xl font-black text-blue-950 tracking-tight uppercase">Tenant Registration</h2>
+                <p id="lbl-sub-title" class="text-[10px] text-slate-400 font-bold tracking-widest uppercase mt-1">MANAGEMENT ONBOARDING SYSTEM</p>
+            </div>
+
+            <!-- Form Body Framework -->
+            <form action="/tenant/register" method="POST" enctype="multipart/form-data" class="space-y-4 flex-1 flex flex-col">
+    
+                <input type="hidden" name="owner_id" value="{{ owner_id }}">
+                
+                <div class="space-y-1.5">
+                    <label id="lbl-full-name" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Full Name of Tenant</label>
+                    <input type="text" name="tenant_name" required placeholder="e.g., Aditya Sarmalkar" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+            
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label id="lbl-contact" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Contact Number</label>
+                        <input type="text" name="tenant_contact" required placeholder="e.g., +91 98765 43210" 
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label id="lbl-emergency-contact" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Emergency Contact / Guardian Number</label>
+                        <input type="text" name="emergency_contact" required placeholder="e.g., +91 98765 43210" 
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition">
+                    </div>
+                </div>
+            
+                <div class="space-y-1.5">
+                    <label class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Email Address</label>
+                    <input type="email" name="email" required placeholder="e.g., rohan.d@student-mail.com" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition">
+                </div>
+            
+                <div class="space-y-1.5">
+                    <label id="lbl-property-ref" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Assigned Property Card / Room Reference</label>
+                    <input type="text" name="property_card_number" required placeholder="e.g., PR-CARD-99012 / Room 302-B" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs text-blue-900 bg-blue-50/30 border-blue-100 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition">
+                </div>
+
+                <div class="space-y-1.5">
+                    <label id="lbl-institution" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Institution / Organization Name</label>
+                    <input type="text" name="institution_name" placeholder="e.g., Symbiosis / TCS" 
+                           class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition shadow-2xs">
+                </div>
+            
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 border border-slate-100 rounded-2xl p-3.5 space-y-2 sm:space-y-0">
+                    <div class="space-y-1.5">
+                        <label id="lbl-id-type" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Government Identity Verification Type</label>
+                        <select name="identity_document_type" required
+                                class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-900 transition cursor-pointer">
+                            <option value="" disabled selected id="opt-select-id">Select Identification Document</option>
+                            <option value="PAN" id="opt-pan">PAN Card (Permanent Account Number)</option>
+                            <option value="DL" id="opt-dl">Driving License</option>
+                            <option value="Passport" id="opt-passport">Passport</option>
+                            <option value="Aadhaar" id="opt-aadhaar">Aadhaar Card (UIDAI Verified Verification)</option>
+                        </select>
+                    </div>
+                    <div class="space-y-1.5">
+                        <label id="lbl-id-number" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Identity Document Number</label>
+                        <input type="text" name="id_number" required placeholder="Enter chosen document alphanumeric code"
+                               class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg font-semibold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 transition">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5 bg-slate-50/50 border border-slate-100 rounded-2xl p-3.5">
+                    <label id="lbl-upload-doc" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Upload Identity Document</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label class="flex flex-col items-center justify-center w-full h-24 border-2 border-slate-200 border-dashed rounded-xl cursor-pointer bg-white hover:bg-slate-50 transition">
+                            <div class="flex flex-col items-center justify-center pt-4 pb-4">
+                                <svg class="w-6 h-6 mb-1 text-slate-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                </svg>
+                                <p class="text-[10px] text-slate-500 font-medium text-center px-2">
+                                    <span id="upload-status" class="font-bold text-blue-900">Click to upload</span> or drag and drop
+                                </p>
+                                <p class="text-[9px] text-slate-400 mt-0.5">PDF, PNG, JPG (Max: 5MB)</p>
+                            </div>
+                            <input type="file" name="identity_file" accept=".pdf, .png, .jpg, .jpeg" class="hidden" 
+                                   onchange="document.getElementById('upload-status').innerText = this.files[0] ? this.files[0].name : 'Click to upload'" />
+                        </label>
+                    </div>
+                </div>
+            
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/50 border border-slate-100 rounded-2xl p-3.5 space-y-2 sm:space-y-0">
+                    <div class="space-y-1.5">
+                        <label id="lbl-vehicle-type" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Authorized Vehicle Classification</label>
+                        <select name="vehicle_type" onchange="handleVehicleTypeChange(this)" required
+                                class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-900 transition cursor-pointer">
+                            <option value="None" id="opt-no-vehicle" selected>No Vehicle Authorized</option>
+                            <option value="Two-Wheeler" id="opt-two-wheeler">Two Wheeler Only (Bike/Scooter)</option>
+                            <option value="Four-Wheeler" id="opt-four-wheeler">Four Wheeler Only (Car/SUV)</option>
+                            <option value="Both" id="opt-both-vehicles">Both (Two & Four Wheeler)</option>
+                        </select>
+                    </div>
+                    <div id="vehicle-no-input-box" class="space-y-1.5 hidden">
+                        <label id="lbl-vehicle-no" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Vehicle Registration Number(s)</label>
+                        <input type="text" name="vehicle_number" disabled placeholder="e.g., MH-12-XX-XXXX"
+                               class="w-full px-3 py-2.5 bg-white border border-slate-200 rounded-lg font-bold text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-900 transition">
+                    </div>
+                </div>
+            
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label id="lbl-advance-paid" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Security Advance Paid (₹)</label>
+                        <input type="number" name="advance_amount" min="0" required placeholder="e.g., 15000" 
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs text-emerald-700 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition">
+                    </div>
+                    <div class="space-y-1.5">
+                        <label id="lbl-stay-start" class="text-[10px] font-black text-slate-500 uppercase tracking-wider block">Stay Commencement Date</label>
+                        <input type="date" name="stay_start_date" required 
+                               class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-bold text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-900 focus:bg-white transition cursor-pointer">
+                    </div>
+                </div>
+            
+                <div class="pt-4 mt-auto">
+                    <button type="submit" class="w-full py-3.5 bg-blue-900 hover:bg-blue-950 text-white rounded-xl font-black text-xs tracking-widest uppercase transition-all duration-200 shadow-md shadow-blue-900/10 cursor-pointer text-center">
+                        <span id="btn-register-txt">Onboard Tenant Profile</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Base Layout Validation Console Strip -->
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div id="lbl-ad-txt" class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                VALIDATION CONSOLE
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

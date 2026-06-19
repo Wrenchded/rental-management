@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tenant Dashboard Wireframe</title>
+    <!-- Tailwind CSS Engine -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        // Production-Grade Interactive View Drawer Pipeline
+        function showDrawer(vectorKey) {
+            const context = getLangContext(vectorKey);
+            if (!context) return;
+
+            document.getElementById('drawer-title').innerText = context.title;
+            document.getElementById('drawer-detail').innerText = context.detail;
+            document.getElementById('drawer-box').classList.remove('hidden');
+            
+            // Auto scroll focus alignment mechanism to drawer target container view
+            document.getElementById('drawer-box').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        function closeDrawer() {
+            document.getElementById('drawer-box').classList.add('hidden');
+        }
+
+        // Central Client-Side Translation & Context Lookups Node
+        function getLangContext(key) {
+            const activeLang = "{{ request.session.get('lang', 'en') }}";
+            
+            const localizedData = {
+                en: {
+                    profile: { title: "{{ _('my_profile') }}", detail: "Name: {{ tenant.name }}\nFather's Name: {{ tenant.father_name }}\nMother's Name: {{ tenant.mother_name }}\nMobile: {{ tenant.mobile }}" },
+                    rent: { title: "{{ _('rent_due') }}", detail: "Current Cycle: Due\nAmount Outstanding: ₹{{ tenant.allocated_rent }}\nDue Date: 5th of this month." },
+                    receipts: { title: "{{ _('receipts') }}", detail: "Transaction Index Log:\nNo history records found in this current session." },
+                    room: { title: "{{ _('room_info') }}", detail: "Assigned Inventory Block:\nRoom 104, Bed Cluster B\nStatus: Allocated" },
+                    attendance: { title: "{{ _('attendance') }}", detail: "Current Month Ledger:\nTotal Present Days: 14 Days\nStatus: Regular Loop." },
+                    notices: { title: "{{ _('notices') }}", detail: "Alert Node:\nWater maintenance scheduled from 10:00 AM to 12:00 PM tomorrow." },
+                    gatepass: { title: "{{ _('gate_pass') }}", detail: "Status: Approved\nActive Entry Window:\nValid till 10:30 PM standard curfew." },
+                    home: { title: "{{ _('home_info') }}", detail: "{{ tenant.permanent_address }}" },
+                    wifi: { title: "{{ _('wifi_access') }}", detail: "Network ID: Sharma_Premium_HighSpeed\nAccess Pass: Resident@Hinjewadi" },
+                    emergency: { title:  "{{ _('emergency') }}", detail: "Warden Contact Desk:\n+91 99999 88888\nMedical Station Box Link active." }
+                },
+                hi: {
+                    profile: { title: "{{ _('my_profile') }}", detail: "नाम: {{ tenant.name }}\nपिता का नाम: {{ tenant.father_name }}\nमाता का नाम: {{ tenant.mother_name }}\nमोबाइल: {{ tenant.mobile }}" },
+                    rent: { title: "{{ _('rent_due') }}", detail: "वर्तमान चक्र: बकाया\nबकाया राशि: ₹{{ tenant.allocated_rent }}\nदेय तिथि: इस महीने की 5 तारीख।" },
+                    receipts: { title: "{{ _('receipts') }}", detail: "लेनदेन इंडेक्स लॉग:\nइस वर्तमान सत्र में कोई इतिहास रिकॉर्ड नहीं मिला।" },
+                    room: { title: "{{ _('room_info') }}", detail: "आवंटित इन्वेंटरी ब्लॉक:\nकमरा 104, बेड क्लस्टर B\nस्थिति: आवंटित" },
+                    attendance: { title: "{{ _('attendance') }}", detail: "वर्तमान माह बहीखाता:\nकुल उपस्थिति: 14 दिन\nस्थिति: नियमित लूप।" },
+                    notices: { title: "{{ _('notices') }}", detail: "अलर्ट नोड:\nकल सुबह 10:00 बजे से दोपहर 12:00 बजे तक पानी का रखरखाव निर्धारित है।" },
+                    gatepass: { title: "{{ _('gate_pass') }}", detail: "स्थिति: स्वीकृत\nसक्रिय प्रवेश विंडो:\nरात 10:30 बजे तक वैध मानक कर्फ्यू।" },
+                    home: { title: "{{ _('home_info') }}", detail: "{{ tenant.permanent_address }}" },
+                    wifi: { title: "{{ _('wifi_access') }}", detail: "नेटवर्क आईडी: Sharma_Premium_HighSpeed\nएक्सेस पास: Resident@Hinjewadi" },
+                    emergency: { title: "{{ _('emergency') }}", detail: "वार्डन संपर्क डेस्क:\n+91 99999 88888\nमेडिकल स्टेशन बॉक्स लिंक सक्रिय।" }
+                },
+                mr: {
+                    profile: { title: "{{ _('my_profile') }}", detail: "नाव: {{ tenant.name }}\nवडिलांचे नाव: {{ tenant.father_name }}\nआईचे नाव: {{ tenant.mother_name }}\nमोबाईल: {{ tenant.mobile }}" },
+                    rent: { title: "{{ _('rent_due') }}", detail: "चालू सायकल: देय\nथकीत रक्कम: ₹{{ tenant.allocated_rent }}\nदेय तारीख: या महिन्याची 5 तारीख." },
+                    receipts: { title: "{{ _('receipts') }}", detail: "व्यवहार इंडेक्स लॉग:\nया चालू सत्रात कोणताही इतिहास आढळला नाही." },
+                    room: { title: "{{ _('room_info') }}", detail: "नेमलेला इन्व्हेंटरी ब्लॉक:\nखोली 104, बेड क्लस्टर B\nस्थिती: वाटप करण्यात आले आहे" },
+                    attendance: { title: "{{ _('attendance') }}", detail: "चालू महिना हजेरी पत्रक:\nएकूण उपस्थित दिवस: 14 दिवस\nस्थिती: नियमित लूप." },
+                    notices: { title: "{{ _('notices') }}", detail: "अलर्ट नोड:\nउद्या सकाळी 10:00 ते दुपारी 12:00 या वेळेत पाण्याचे काम नियोजित आहे." },
+                    gatepass: { title: "{{ _('gate_pass') }}", detail: "स्थिती: मंजूर\nसक्रिय प्रवेश विंडो:\nरात्री 10:30 वाजेपर्यंत वैध मानक कर्फ्यू." },
+                    home: { title: "{{ _('home_info') }}", detail: "{{ tenant.permanent_address }}" },
+                    wifi: { title: "{{ _('wifi_access') }}", detail: "नेटवर्क आयडी: Sharma_Premium_HighSpeed\nएक्सेस पास: Resident@Hinjewadi" },
+                    emergency: { title: "{{ _('emergency') }}", detail: "वॉर्डन संपर्क डेस्क:\n+91 99999 88888\nवैद्यकीय केंद्र बॉक्स लिंक सक्रिय आहे." }
+                }
+            };
+            
+            const currentLangSet = localizedData[activeLang] || localizedData['en'];
+            return currentLangSet[key];
+        }
+    </script>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center font-sans">
+
+    <!-- 🌐 Main Canvas Wrapper Node (Responsive Layout Boundary) -->
+    <div class="w-full min-h-screen md:min-h-0 md:max-w-xl md:my-8 bg-white md:rounded-3xl md:shadow-xl md:border md:border-slate-100 p-6 sm:p-8 flex flex-col justify-between">
+        
+        <div>
+            <!-- 🏢 Branding Header Title Node -->
+            <div class="text-center md:text-left border-b border-slate-100 pb-4 mb-5">
+                <h2 class="text-lg font-black text-blue-950 tracking-wide uppercase">{{ _('app_title') }}</h2>
+                <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase mt-0.5">{{ _('portal_sub') }}</p>
+            </div>
+
+            <!-- Profile Info Metrics Card Node -->
+            <div class="bg-blue-950 text-white rounded-2xl p-4 text-xs font-bold leading-relaxed mb-3 shadow-md shadow-blue-950/10">
+                <div class="flex items-center gap-2 text-sm font-black tracking-tight mb-0.5">
+                    <span>👤</span> {{ tenant.name.upper() }}
+                </div>
+                <div class="text-blue-200/90 font-mono tracking-wide mt-1 text-[11px]">
+                    🆔 Resident ID: {{ tenant.tenant_id }}
+                </div>
+            </div>
+
+            <!-- Verification Status Banner Node -->
+            <div class="bg-emerald-50/60 border border-emerald-100 text-emerald-800 rounded-2xl p-3.5 text-center font-bold text-xs leading-relaxed mb-5 shadow-2xs">
+                🏢 Inst/Organization: <span class="font-black text-emerald-950">{{ tenant.institution }}</span> <br>
+                <div class="flex items-center justify-center gap-1.5 mt-1 text-emerald-700 font-semibold text-[11px]">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    📋 Aadhaar Verification: Secure Sync Passed
+                </div>
+            </div>
+
+            <!-- 🎛️ Interactive Core Features Grid Architecture Matrix -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+                
+                <!-- Vector 1: Profile Summary Box -->
+                <button onclick="showDrawer('profile')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">👤</span>{{ _('my_profile') }}
+                </button>
+
+                <!-- Vector 2: Financial Rent Matrix Box -->
+                <button onclick="showDrawer('rent')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">💸</span>{{ _('rent_due') }}
+                </button>
+
+                <!-- Vector 3: Historical Receipts Storage Ledger -->
+                <button onclick="showDrawer('receipts')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">🧾</span>{{ _('receipts') }}
+                </button>
+
+                <!-- Vector 4: Real Estate Space Inventory Mapping -->
+                <button onclick="showDrawer('room')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">🛏️</span>{{ _('room_info') }}
+                </button>
+
+                <!-- Vector 5: Digital Ledger Loop Attendance Verification -->
+                <button onclick="showDrawer('attendance')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">📅</span>{{ _('attendance') }}
+                </button>
+
+                <!-- Vector 6: Operational Command Broadcast Channel Box -->
+                <button onclick="showDrawer('notices')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">📢</span>{{ _('notices') }}
+                </button>
+
+                <!-- Vector 7: Agreement Contract Framework Pipeline Router -->
+                <a href="/dashboard/tenant/{{ tenant.tenant_id }}/agreement" target="_blank" 
+                   class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer decoration-none shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">📝</span>{{ _('agreement') }}
+                </a>
+                
+                <!-- Vector 8: Dynamic Gate Pass Registry Token -->
+                <button onclick="showDrawer('gatepass')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">🎫</span>{{ _('gate_pass') }}
+                </button>
+                
+                <!-- Vector 9: Helpdesk Complaint Logging Framework Router -->
+                <a href="/dashboard/tenant/{{ tenant.tenant_id }}/complaints" 
+                   class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer decoration-none shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">🛠️</span>{{ _('complaints') }}
+                </a>
+
+                <!-- Vector 10: Permanent Origin Address Records -->
+                <button onclick="showDrawer('home')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">🏠</span>{{ _('home_info') }}
+                </button>
+
+                <!-- Vector 11: Network Architecture Verification Node -->
+                <button onclick="showDrawer('wifi')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">📶</span>{{ _('wifi_access') }}
+                </button>
+
+                <!-- Vector 12: Priority Emergency Contact Point -->
+                <button onclick="showDrawer('emergency')" 
+                        class="h-20 bg-slate-50 border border-slate-200/60 rounded-xl text-center text-[11px] font-black text-slate-700 hover:bg-blue-900 hover:text-white hover:border-blue-900 transition-all duration-200 flex flex-col justify-center items-center cursor-pointer shadow-2xs group">
+                    <span class="text-xl mb-1 group-hover:scale-110 transition-transform">📞</span>{{ _('emergency') }}
+                </button>
+            </div>
+
+            <!-- 📬 DYNAMIC DRAWER INTERACTIVE DISPLAY PANEL NODE -->
+            <div id="drawer-box" class="hidden bg-amber-50/60 border-2 border-amber-200/70 rounded-2xl p-4 text-xs mb-6 relative transition shadow-2xs">
+                <button onclick="closeDrawer()" class="absolute top-2.5 right-3 text-slate-400 font-black hover:text-slate-700 text-sm cursor-pointer transition">✕</button>
+                <h4 id="drawer-title" class="font-black text-amber-950 mb-1.5 uppercase tracking-wider text-[11px]"></h4>
+                <p id="drawer-detail" class="text-slate-700 font-semibold leading-relaxed whitespace-pre-line"></p>
+            </div>
+        </div>
+
+        <!-- Session Terminate Trigger Container -->
+        <div class="mt-4">
+            <a href="/" class="w-full block text-center py-3.5 bg-slate-50 border border-slate-200 hover:bg-red-50 hover:text-red-600 hover:border-red-200 rounded-xl font-black text-xs tracking-widest text-slate-600 transition-all duration-150 uppercase decoration-none">
+                {{ _('sign_out') }}
+            </a>
+        </div>
+
+        <!-- 🏷️ Commercial Sponsor Banner Layout Grid Node -->
+        <div class="mt-8 pt-4 border-t border-slate-100">
+            <div class="w-full bg-slate-100 border-2 border-dashed border-slate-300 text-slate-400 font-bold text-xs tracking-[0.25em] text-center py-4 rounded-xl select-none">
+                {{ _('advertise_window') }}
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
